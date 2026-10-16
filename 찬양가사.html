@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수련회 찬양 가사</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --fg: #FFFFFF;
+    --overlay: rgba(0, 0, 0, 0.45);   /* 검은 오버레이 45% */
+    --lyric-size: 92px;               /* 1920px 기준 ≈ 46pt (16:9 슬라이드 환산) */
+    --lyric-lh: 1.5;
+    --font: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "NanumSquare", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+  body { font-family: var(--font); color: var(--fg); }
+  /* 마우스를 3초간 움직이지 않으면 포인터 숨김, 움직이면 다시 보임 */
+  body.idle:not(.editing) { cursor: none; }
+
+  /* 16:9 무대 — 1920×1080 고정 후 화면에 맞춰 축소/확대 */
+  #stage {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform-origin: center center;
+    background-color: var(--bg);
+    /* 배경 이미지: 같은 폴더에 background.jpg 를 두면 자동 적용. 없으면 #0A0A0A 단색 */
+    background-image: url("background.jpg");
+    background-size: cover; background-position: center;
+    overflow: hidden;
+  }
+  #stage::before { content: ""; position: absolute; inset: 0; background: var(--overlay); }
+  #stage.black { background: #000; }
+  #stage.black::before { display: none; }
+
+  /* 가사 박스 — 위치·크기 고정 (슬라이드 전환 시 흔들림 없음) */
+  .box {
+    position: absolute; left: 10%; right: 10%; top: 50%;
+    height: calc(var(--lyric-size) * var(--lyric-lh) * 3);
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+  }
+  .lyric {
+    font-size: var(--lyric-size); font-weight: 700; line-height: var(--lyric-lh);
+    white-space: nowrap; letter-spacing: -0.01em;
+    -webkit-text-stroke: 4px #000; paint-order: stroke fill;
+    text-shadow: 0 0 8px rgba(0,0,0,0.85);
+  }
+  .title-box { position: absolute; left: 10%; right: 10%; top: 50%; transform: translateY(-50%); text-align: center; }
+  .song-title {
+    font-size: 116px; font-weight: 800; line-height: 1.3;
+    -webkit-text-stroke: 4px #000; paint-order: stroke fill; text-shadow: 0 0 8px rgba(0,0,0,0.85);
+  }
+  .song-credit { margin-top: 36px; font-size: 38px; font-weight: 500; opacity: 0.8; text-shadow: 0 0 8px rgba(0,0,0,0.85); }
+
+  /* 차례 — 화면 하단 고정, 현재 곡 강조 (T 키로 켜기/끄기) */
+  .toc {
+    position: absolute; left: 5%; right: 5%; bottom: 44px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 36px;
+    font-size: 26px; font-weight: 500; line-height: 1.3;
+    text-shadow: 0 0 6px rgba(0,0,0,0.9);
+  }
+  .toc span { opacity: 0.45; white-space: nowrap; cursor: pointer; }
+  .toc span:hover { opacity: 0.85; }
+  .toc span.now { opacity: 1; font-weight: 800; }
+  body.no-toc .toc, body.no-toc .secs { display: none; }
+
+  /* 곡 구성 — 현재 곡의 절·후렴·브릿지 (클릭하면 그 구간으로) */
+  .secs {
+    position: absolute; left: 5%; right: 5%; bottom: 150px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px;
+    font-size: 26px; font-weight: 600; line-height: 1.3;
+  }
+  .secs span {
+    padding: 6px 18px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+    border: 2px solid rgba(255,255,255,0.35); opacity: 0.55;
+    background: rgba(0,0,0,0.35); text-shadow: 0 0 6px rgba(0,0,0,0.9);
+  }
+  .secs span:hover { opacity: 0.9; }
+  .secs span.now { opacity: 1; border-color: #fff; font-weight: 800; }
+
+  /* 편집기 (E 키) — 무대 밖 오버레이, 송출 화면에는 나타나지 않음 */
+  #editor {
+    display: none; position: fixed; inset: 0; z-index: 10;
+    background: #111; color: #eee; font-family: var(--font);
+    grid-template-columns: 1fr 380px; gap: 16px; padding: 16px;
+  }
+  body.editing #editor { display: grid; }
+  #editor textarea {
+    width: 100%; height: 100%; resize: none; background: #1b1b1b; color: #f2f2f2;
+    border: 1px solid #333; border-radius: 8px; padding: 16px;
+    font: 16px/1.6 ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  #editor aside { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  #editor h2 { font-size: 18px; }
+  #editor .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  #editor button {
+    font: inherit; font-size: 14px; padding: 8px 12px; border-radius: 6px;
+    border: 1px solid #444; background: #262626; color: #eee; cursor: pointer;
+  }
+  #editor button.primary { background: #2f6fed; border-color: #2f6fed; }
+  #report { flex: 1; overflow: auto; font-size: 13px; line-height: 1.6; background: #1b1b1b; border-radius: 8px; padding: 12px; }
+  #report .warn { color: #ffb44d; }
+  #report .ok { color: #7ddc8a; }
+  #editor .help { font-size: 12px; color: #aaa; line-height: 1.6; }
+
+  #help {
+    display: none; position: fixed; right: 24px; bottom: 24px; z-index: 5;
+    background: rgba(20,20,20,0.92); color: #ddd; font-size: 14px; line-height: 1.8;
+    padding: 16px 20px; border-radius: 10px; font-family: var(--font);
+  }
+  body.show-help #help { display: block; }
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+
+<div id="editor">
+  <textarea id="src" spellcheck="false"></textarea>
+  <aside>
+    <h2>가사 편집</h2>
+    <div class="btns">
+      <button class="primary" id="btn-apply">적용 (Ctrl+Enter)</button>
+      <button id="btn-export">가사 포함 HTML 저장</button>
+      <button id="btn-reset">원본으로 되돌리기</button>
+      <button id="btn-close">닫기 (Esc)</button>
+    </div>
+    <div id="report"></div>
+    <div class="help">
+      <b>입력 형식</b><br>
+      <code># 곡명</code> 새 곡 시작<br>
+      <code>@ 작사·작곡 / CCLI</code> 저작권 표기<br>
+      <code>[1절]</code> <code>[후렴]</code> <code>[브릿지]</code> 구간 시작<br>
+      한 줄 = 화면의 한 행. 구간 안에서 2줄씩 자동 묶음 (홀수면 마지막은 3줄)<br>
+      빈 줄 = 강제로 다음 슬라이드<br>
+      <code>&gt; 1절, 후렴, 2절, 후렴, 브릿지, 후렴 x2</code> 진행 순서 (없으면 적힌 순서대로)
+    </div>
+  </aside>
+</div>
+
+<div id="help">
+  → / Space / PageDown : 다음<br>
+  ← / PageUp : 이전<br>
+  1~9, 0 : 해당 곡 제목으로<br>
+  Home / End : 처음 / 끝<br>
+  B : 검은 화면 전환<br>
+  F : 전체 화면<br>
+  E : 가사 편집<br>
+  T : 하단 차례·곡 구성 켜기/끄기<br>
+  ? : 이 도움말
+</div>
+
+<!-- ▼ 가사 데이터 — 여기를 직접 고쳐도 되고, 화면에서 E 키로 편집해도 됩니다 -->
+<script type="text/plain" id="songs-data">
+# 우리 주안에서 노래하며 (높이 계신 주님께)
+@ 작사·작곡 표기 입력
+[1절]
+우리 주 안에서 노래하며
+주의 이름 찬양해
+감사로 그 문에 들어가
+주의 이름 송축하네
+진실한 찬양 안에
+권능 임하니
+외치세 할렐루야 손뼉 치며
+전능하신 주께
+[후렴]
+높이 계신 주님께
+우리 여기 모인 이유
+우리 마음 모아
+주님을 높이는 것
+[2절]
+내 안에 모든 것
+주를 바랄 때
+주의 능력 또 영광
+은혜와 자비도
+찬양하며 춤추세
+마음 문 열어
+주가 자유케하리
+주의 이름 찬양해
+[엔딩]
+높이 계신 주님께
+높이 계신 주님께
+
+# 풀은 마르고
+@ 작사·작곡 표기 입력
+[1절]
+풀은 마르고 꽃은 시드나
+주의 말씀은 영원해
+[후렴]
+주의 말씀을 믿는 자
+그의 구원을 얻으리
+주의 말씀을 행하는 자
+그의 능력을 보게되리라
+[엔딩]
+주의 말씀은 영원해
+주의 말씀은 영원해
+주의 말씀은 영원해 영원해
+
+# 주의 자비가 내려와
+@ 작사·작곡 표기 입력
+[1절]
+주의 자비가 내려와
+주의 자비가 봄비같이
+주의 자비가 내려와
+나를 덮네
+[후렴]
+Hey-ho! 주의 자비하심과
+Hey-ho! 주의 은혜로
+Hey-ho! 나는 영원히 춤추리
+
+# 생명 주께 있네
+@ 작사·작곡 표기 입력
+[1절]
+생명 주께 있네
+능력 주께 있네
+소망 주께 있네
+주 안에 있네
+[1절]
+생명 주께 있네
+능력 주께 있네
+소망 주께 있네
+주 안에 있네
+[후렴]
+생명 다해 주 찬양하리
+힘을 다해 주 찬양하리
+내 생명 다해 내 힘을 다해
+모든 소망 주님께
+[1절]
+생명 주께 있네
+능력 주께 있네
+소망 주께 있네
+주 안에 있네 주께
+[후렴]
+생명 다해 주 찬양하리
+힘을 다해 주 찬양하리
+내 생명 다해 내 힘을 다해
+모든 소망 주님께
+[엔딩]
+생명 주께 있네
+능력 주께 있네
+소망 주께 있네
+주 안에 있네
+주 안에 있네
+주 안에 있네 주께
+
+# 주의 사랑을 입어
+@ 작사·작곡 표기 입력
+[절]
+수많은 괴롬과 슬픔 가운데 놓인
+보잘 것 없는 나를
+갈 길을 찾지 못해 서성거리는
+길 잃은 어린아이처럼
+나의 어여쁜 자야 나와 함께 가자
+너의 근심은 모두 이제 내려놓고
+나의 평안을 네게 모두 주었노라
+그 무엇도 비길 수 없네
+[후렴]
+주의 사랑을 입어 살아가네
+주의 평안이 내게 있네
+[브릿지]
+사랑한다 아들아
+내가 너를 잘 아노라
+사랑한다 내 딸아
+네게 축복 더하노라
+[엔딩]
+네게 축복 더하노라
+네게 축복 더하노라
+> 절, 후렴 x2, 절, 후렴 x4, 브릿지 x3, 엔딩
+
+# 사랑합니다 나의 예수님
+@ 작사·작곡 표기 입력
+[절]
+사랑합니다 나의 예수님
+사랑합니다 아주 많이요
+사랑합니다 나의 예수님
+사랑합니다 그것뿐예요
+[브릿지]
+사랑한다 아들아
+내가 너를 잘 아노라
+사랑한다 내 딸아
+네게 축복 더하리라
+[엔딩]
+네게 축복 더하리라
+> 절 x2, 브릿지, 절, 브릿지, 엔딩
+
+# 험한 십자가 능력 있네
+@ 작사·작곡 표기 입력
+[1절]
+목적도 없이 나는 방황했네
+소망도 없이 살았네
+그때에 못잡은 한 그 손길
+나에게 새 생명 주셨네
+험한 십자가에 능력 있네
+거기서 나의 삶이 변했네
+찬양하리 주 예수 영원히
+주의 십자가로 변했네
+[후렴]
+나는 믿네 갈보리 언덕 십자가
+나는 믿네 그 누가 뭐라 해도
+이 세상 끝이라도 끝날이 와도
+험한 십자가 붙들겠네
+[2절]
+나는 믿네 십자가에서 못 박힌 주
+오늘도 새 삶을 주시는
+날 새롭게 하셨네
+나는 깊이 저 못 십자가 잡고 살아가리
+[엔딩]
+나는 믿네 갈보리 언덕 십자가
+나는 믿네 그 누가 뭐라 해도
+이 세상 끝이라도 끝날이 와도
+험한 십자가 붙들겠네
+험한 십자가 붙들겠네
+
+# 갈보리산 위에
+@ 새찬송가 150장 · 작사·작곡 George Bennard (1913)
+[1절]
+갈보리산 위에 십자가 섰으니
+주가 고난을 당한 표라
+험한 십자가를 내가 사랑함은
+주가 보혈을 흘림일세
+[2절]
+멸시함을 받은 주의 십자가에
+나의 마음이 끌리도다
+귀한 어린양이 영광 다 버리고
+험한 십자가 지셨도다
+[3절]
+험한 십자가에 주가 흘린 피를
+믿는 맘으로 바라보니
+나를 용서하고 내 죄 사하시려
+주가 흘리신 보혈일세
+[4절]
+주가 예비하신 나의 본향집에
+나를 부르실 그날까지
+험한 십자가를 항상 달게 지고
+내가 죽도록 충성하리
+[후렴]
+최후 승리를 얻기까지
+주의 십자가 사랑하리
+빛난 면류관 받기까지
+험한 십자가 붙들겠네
+> 1절, 후렴, 2절, 후렴, 3절, 후렴, 4절, 후렴
+
+# 주님만이 왕이십니다
+@ 작사·작곡 표기 입력
+[영어 후렴]
+Jesus you’re the only one our King
+Jesus you’re the only one our King
+Jesus you’re the only one our King
+Jesus you’re the only one our King
+[In this Place]
+In this Place In this Place
+In this Place In this Place
+In this Place In this Place
+In this Place In this Place
+[후렴]
+주님만이 왕이십니다
+주님만이 왕이십니다
+주님만이 왕이십니다
+주님만이 왕이십니다
+[내 삶에]
+내 삶에 내 삶에 내 삶에 내 삶에
+내 삶에 내 삶에 내 삶에 내 삶에
+[온 땅에]
+온 땅에 온 땅에 온 땅에 온 땅에
+온 땅에 온 땅에 온 땅에 온 땅에
+[경배해]
+경배해 경배해 경배해 경배해
+경배해 경배해 경배해 경배해
+[브릿지]
+모든 이름 위에 뛰어나신 이름
+왕의 왕 예수께 엎드려 경배해
+모든 이름 위에 뛰어나신 이름
+왕의 왕 예수께 손들고 경배해
+[영어 브릿지]
+To the name of all names
+Jesus, we give you praise
+To the King of all kings
+Lord, we bow down to You
+To the name of all names
+Jesus, we give you praise
+To the King of all kings
+We lift our hands to You
+> 영어 후렴, In this Place, 후렴, 내 삶에, 후렴, 온 땅에, 경배해, 브릿지 x2, 영어 브릿지, 영어 후렴, 후렴 x3
+
+# 위대하시다 하라
+@ 작사·작곡 표기 입력
+[절]
+하나님이여 나의 마음을
+주께로 정하였으니
+나의 노래로 마음 다하여
+주님을 찬양하리라
+[후렴]
+위대하시다 하라
+거룩하시다 하라
+광대하시다 하라
+내 주를
+[브릿지]
+만민 중에서 감사드리며
+나라들 찬양하여라
+> 절, 후렴, 절, 후렴 x2, 브릿지, 후렴 x3
+</script>
+<!-- ▲ 가사 데이터 끝 -->
+
+<script>
+(() => {
+  const STORE_KEY = "worship-lyrics-src-v1";
+  const MAX_WIDTH = 1920 * 0.8;           // 좌우 10% 여백
+  const embedded = document.getElementById("songs-data").textContent.trim();
+  const stage = document.getElementById("stage");
+  const srcEl = document.getElementById("src");
+  const report = document.getElementById("report");
+
+  const store = {
+    get() { try { return localStorage.getItem(STORE_KEY); } catch { return null; } },
+    set(v) { try { localStorage.setItem(STORE_KEY, v); } catch {} },
+    clear() { try { localStorage.removeItem(STORE_KEY); } catch {} },
+  };
+
+  let source = store.get() || embedded;
+  let slides = [];
+  let songStarts = [];
+  let songTitles = [];
+  let songSecs = [];
+  let idx = 0;
+  let blackout = false;
+
+  // ---------- 파싱 ----------
+  function parse(text) {
+    const songs = [];
+    let song = null, section = null;
+    for (const raw of text.split(/\r?\n/)) {
+      const line = raw.trim();
+      if (line.startsWith("#")) {
+        song = { title: line.slice(1).trim(), credit: "", sections: [], order: null };
+        songs.push(song); section = null; continue;
+      }
+      if (!song) continue;
+      if (line.startsWith("@")) { song.credit = line.slice(1).trim(); continue; }
+      if (line.startsWith(">")) {
+        song.order = line.slice(1).split(/[,→]/).map(s => s.trim()).filter(Boolean); continue;
+      }
+      const m = line.match(/^\[(.+)\]$/);
+      if (m) { section = { name: m[1].trim(), groups: [[]] }; song.sections.push(section); continue; }
+      if (!section) {
+        if (!line) continue;
+        section = { name: "가사", groups: [[]] }; song.sections.push(section);
+      }
+      if (!line) { if (section.groups.at(-1).length) section.groups.push([]); continue; }
+      section.groups.at(-1).push(line);
+    }
+    return songs;
+  }
+
+  function sectionSlides(sec) {
+    const out = [];
+    // 2행씩 묶되, 홀수 행이면 마지막을 3행으로 (1행만 남는 슬라이드 방지)
+    for (const g of sec.groups) {
+      const tail = g.length >= 3 && g.length % 2 ? 3 : 0;
+      for (let i = 0; i < g.length - tail; i += 2) out.push(g.slice(i, i + 2));
+      if (tail) out.push(g.slice(-3));
+    }
+    return out;
+  }
+
+  function expandOrder(song, warnings) {
+    if (!song.order) return song.sections;
+    const list = [];
+    for (const tok of song.order) {
+      const m = tok.match(/^(.+?)\s*[x×X]\s*(\d+)$/);
+      const name = (m ? m[1] : tok).trim();
+      const times = m ? parseInt(m[2], 10) : 1;
+      const sec = song.sections.find(s => s.name === name);
+      if (!sec) { warnings.push(`「${song.title}」 진행 순서의 [${name}] 구간이 가사에 없습니다.`); continue; }
+      for (let i = 0; i < times; i++) list.push(sec);
+    }
+    return list;
+  }
+
+  // ---------- 슬라이드 생성 ----------
+  const measureCtx = document.createElement("canvas").getContext("2d");
+  function lineWidth(t) {
+    measureCtx.font = `700 92px ${getComputedStyle(document.body).getPropertyValue("--font")}`;
+    return measureCtx.measureText(t).width;
+  }
+
+  function build(text) {
+    const songs = parse(text);
+    const warnings = [], dist = [];
+    slides = []; songStarts = [];
+    songSecs = [];
+    songTitles = songs.map(s => s.title.replace(/\s*\(.*?\)\s*/g, " ").trim());
+    songs.forEach((song, n) => {
+      songStarts.push(slides.length);
+      const secs = [];
+      songSecs.push(secs);
+      slides.push({ type: "title", title: song.title, credit: song.credit, song: n, occ: -1 });
+      const parts = [];
+      let prevKey = null, prevSecKey = null;
+      for (const sec of expandOrder(song, warnings)) {
+        // 바로 앞 구간과 같은 구간이 연달아 반복되면 생략
+        const all = sectionSlides(sec);
+        const secKey = all.map(l => l.join("\n")).join("\n\n");
+        if (secKey === prevSecKey) continue;
+        prevSecKey = secKey;
+        // 바로 앞 슬라이드와 내용이 같으면 생략 (반복 구간은 같은 화면 유지)
+        const ss = all.filter(lines => {
+          const key = lines.join("\n");
+          if (key === prevKey) return false;
+          prevKey = key; return true;
+        });
+        if (!ss.length) continue;
+        secs.push({ name: sec.name, start: slides.length });
+        ss.forEach(lines => {
+          lines.forEach(l => {
+            if (lineWidth(l) > MAX_WIDTH) warnings.push(`「${song.title}」 [${sec.name}] "${l}" — 한 행이 너무 깁니다. 줄을 나눠 주세요.`);
+          });
+          slides.push({ type: "lyric", lines, song: n, occ: secs.length - 1 });
+        });
+        parts.push(`${sec.name} ${ss.length}`);
+      }
+      slides.push({ type: "black" });
+      if (!song.sections.length) warnings.push(`「${song.title}」 가사가 아직 비어 있습니다.`);
+      dist.push(`${n + 1}. ${song.title} — 제목 1 · ${parts.join(" · ") || "가사 0"} · 빈 화면 1 = ${parts.length ? 2 + parts.reduce((a, p) => a + +p.split(" ").pop(), 0) : 2}장`);
+    });
+    return { warnings, dist };
+  }
+
+  function esc(s) { return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  function render() {
+    const s = slides[idx];
+    const black = blackout || !s || s.type === "black";
+    stage.classList.toggle("black", black);
+    if (black) { stage.innerHTML = ""; return; }
+    if (s.type === "title") {
+      stage.innerHTML = `<div class="title-box"><div class="song-title">${esc(s.title)}</div>` +
+        (s.credit ? `<div class="song-credit">${esc(s.credit)}</div>` : "") + `</div>`;
+    } else {
+      stage.innerHTML = `<div class="box">${s.lines.map(l => `<div class="lyric">${esc(l)}</div>`).join("")}</div>`;
+    }
+    const secs = songSecs[s.song] || [];
+    if (secs.length) stage.insertAdjacentHTML("beforeend", `<nav class="secs">${secs.map((x, i) =>
+      `<span data-slide="${x.start}"${i === s.occ ? ' class="now"' : ""}>${esc(x.name)}</span>`).join("")}</nav>`);
+    stage.insertAdjacentHTML("beforeend", `<nav class="toc">${songTitles.map((t, i) =>
+      `<span data-song="${i}"${i === s.song ? ' class="now"' : ""}>${i + 1}. ${esc(t)}</span>`).join("")}</nav>`);
+  }
+
+  function fit() {
+    const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = `translate(-50%, -50%) scale(${k})`;
+  }
+
+  function go(i) { idx = Math.max(0, Math.min(slides.length - 1, i)); blackout = false; render(); }
+
+  // ---------- 편집기 ----------
+  function showReport(res) {
+    const lyricCount = slides.filter(s => s.type === "lyric").length;
+    let html = `<div class="ok">총 ${slides.length}장 (가사 ${lyricCount}장)</div><br>`;
+    html += res.dist.map(esc).join("<br>");
+    if (res.warnings.length) html += "<br><br>" + res.warnings.map(w => `<div class="warn">⚠ ${esc(w)}</div>`).join("");
+    report.innerHTML = html;
+  }
+
+  function openEditor() { srcEl.value = source; document.body.classList.add("editing"); showReport(build(source)); srcEl.focus(); }
+  function closeEditor() { document.body.classList.remove("editing"); render(); }
+  function apply() {
+    source = srcEl.value; store.set(source);
+    const res = build(source); showReport(res);
+    idx = Math.min(idx, slides.length - 1); render();
+  }
+  function exportHtml() {
+    apply();
+    const doc = document.documentElement.cloneNode(true);
+    doc.querySelector("#songs-data").textContent = "\n" + source.trim() + "\n";
+    doc.querySelector("#stage").innerHTML = "";
+    doc.querySelector("#stage").className = "";
+    doc.querySelector("#src").textContent = "";
+    doc.querySelector("#report").innerHTML = "";
+    doc.querySelector("body").className = "";
+    const blob = new Blob(["<!doctype html>\n" + doc.outerHTML], { type: "text/html" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "찬양가사.html"; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  document.getElementById("btn-apply").onclick = apply;
+  document.getElementById("btn-export").onclick = exportHtml;
+  document.getElementById("btn-close").onclick = closeEditor;
+  document.getElementById("btn-reset").onclick = () => {
+    if (srcEl.value !== embedded) { store.clear(); source = embedded; srcEl.value = embedded; showReport(build(source)); render(); }
+  };
+
+  // ---------- 키보드 · 클릭 ----------
+  addEventListener("keydown", e => {
+    if (document.body.classList.contains("editing")) {
+      if (e.key === "Escape") closeEditor();
+      else if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); apply(); }
+      return;
+    }
+    const k = e.key;
+    if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter"].includes(k)) { e.preventDefault(); go(idx + 1); }
+    else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(k)) { e.preventDefault(); go(idx - 1); }
+    else if (k === "Home") go(0);
+    else if (k === "End") go(slides.length - 1);
+    else if (/^[0-9]$/.test(k)) { const n = k === "0" ? 9 : +k - 1; if (songStarts[n] != null) go(songStarts[n]); }
+    else if (k === "b" || k === "B" || k === "." ) { blackout = !blackout; render(); }
+    else if (k === "f" || k === "F") { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
+    else if (k === "e" || k === "E") { e.preventDefault(); openEditor(); }
+    else if (k === "t" || k === "T") document.body.classList.toggle("no-toc");
+    else if (k === "?" || k === "/") document.body.classList.toggle("show-help");
+  });
+  stage.addEventListener("click", e => {
+    const t = e.target.closest("[data-song]");
+    const sl = e.target.closest("[data-slide]");
+    if (t) go(songStarts[+t.dataset.song]);
+    else if (sl) go(+sl.dataset.slide);
+    else go(e.clientX < innerWidth / 3 ? idx - 1 : idx + 1);
+  });
+  addEventListener("resize", fit);
+  let idleTimer;
+  addEventListener("mousemove", () => {
+    document.body.classList.remove("idle");
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => document.body.classList.add("idle"), 3000);
+  });
+
+  // ---------- 시작 ----------
+  fit();
+  build(source);
+  render();
+  document.fonts?.ready.then(() => build(source));
+})();
+</script>
+</body>
+</html>
