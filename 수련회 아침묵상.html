@@ -207,6 +207,11 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
 .saved{text-align:center; font-size:11.5px; color:var(--faint); min-height:17px;
   letter-spacing:.04em; padding-bottom:4px}
 @media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important} }
+
+.cue{background:var(--sunk); border-left:3px solid var(--blue); padding:12px 15px;
+     border-radius:0 4px 4px 0; margin:16px 0;}
+.cue p{margin:0; font-size:.95rem; color:var(--muted); line-height:1.8;}
+.cue b{color:var(--ink);}
 </style>
 </head>
 <body>
@@ -226,8 +231,7 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
 <section data-step="시작" data-min="">
   <p class="eyebrow">로마서 12장 1절에서 2절 · 혼자 하는 시간 35분</p>
   <h1>그러므로<br>너희 몸을 드리라</h1>
-  <p class="lede">수련회의 첫 말씀 시간입니다. 조용한 자리를 찾아 앉으시고, 휴대전화의 다른 알림은 꺼
-  두십시오. 이 시간은 공부가 아니라 그 자체로 한 번의 예배입니다.</p>
+  
 
   <div class="verse">
     <p><span class="n">1</span>그러므로 형제들아 내가 하나님의 모든 자비하심으로 너희를 권하노니 너희 몸을
@@ -244,26 +248,7 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
   <p>그리고 그 응답은 한 시간이 아니라 몸 전체입니다. 성막의 제물은 죽은 제물이었지만, 우리가 드리는
   것은 산 제물입니다. 날마다 걸어 다니는 제물입니다.</p>
 
-  <h2>오늘 묵상의 두 가지 눈</h2>
-  <div class="eyes">
-    <div class="eye god"><div class="t">하나님 찾기</div>
-      <p>이 본문에서 하나님은 어떤 분으로 나오시는가</p></div>
-    <div class="eye man"><div class="t">사람 찾기</div>
-      <p>이 본문에서 사람은, 곧 나는 어떤 모습으로 나오는가</p></div>
-  </div>
-  <p class="fine">이 둘을 놓치면 성경을 읽어도 교훈만 남고 하나님은 사라집니다. 적용은 그다음입니다.</p>
-
-  <h2>묵상의 여섯 걸음</h2>
-  <div class="steps">
-    <div><span class="k">1 멈추기</span><span class="m">3분</span><span class="d">지금 내 마음을 하나님께 맡겨 드립니다.</span></div>
-    <div><span class="k">2 읽기</span><span class="m">5분</span><span class="d">본문을 세 번 읽고 걸리는 한 단어에 표시합니다.</span></div>
-    <div class="hi"><span class="k">3 하나님 찾기</span><span class="m">7분</span><span class="d">하나님은 어떤 분으로 나오시는지 찾습니다.</span></div>
-    <div class="hi"><span class="k">4 사람 찾기</span><span class="m">7분</span><span class="d">사람은 어떤 모습으로 나오는지 찾습니다.</span></div>
-    <div><span class="k">5 비추기</span><span class="m">8분</span><span class="d">찾은 것 앞에 나의 한 주를 펼쳐 놓습니다.</span></div>
-    <div><span class="k">6 드리기</span><span class="m">5분</span><span class="d">읽은 말씀으로 실제로 한 번 예배를 드립니다.</span></div>
-    <div><span class="k">이어서 09:35</span><span class="m">25분</span><span class="d">둘러앉아 서로 나눕니다.</span></div>
-  </div>
-  <p class="fine">여기에 적은 것은 이 기기에만 저장됩니다. 다른 사람에게 전해지지 않습니다.</p>
+  
 </section>
 
 <!-- 1 ───────────────────────────────── -->
@@ -318,41 +303,10 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
   <h1>하나님은 어떤 분으로<br>나오십니까</h1>
   <p class="lede">두 절 안에 하나님이 네 번 나옵니다. 내 생각이 아니라 본문이 말하는 것만 적습니다.</p>
 
-  <div class="find">
-    <div class="card"><div class="tag">1절</div>
-      <div class="q">하나님의 모든 <b>자비하심</b>으로</div>
-      <div class="ask">그래서 하나님은 어떤 분입니까</div>
-      <textarea id="f3a" data-label="자비하심 → 하나님은"></textarea></div>
-    <div class="card"><div class="tag">1절</div>
-      <div class="q">하나님이 <b>기뻐하시는</b> 거룩한 산 제물</div>
-      <div class="ask">그래서 하나님은 어떤 분입니까</div>
-      <textarea id="f3b" data-label="기뻐하시는 → 하나님은"></textarea></div>
-    <div class="card"><div class="tag">2절</div>
-      <div class="q">하나님의 <b>선하시고 기뻐하시고 온전하신</b> 뜻</div>
-      <div class="ask">그래서 하나님은 어떤 분입니까</div>
-      <textarea id="f3c" data-label="선하시고 온전하신 뜻 → 하나님은"></textarea></div>
-    <div class="card"><div class="tag">1절 · 명령이 아니라 권함입니다</div>
-      <div class="q">내가 너희를 <b>권하노니</b></div>
-      <div class="ask">그래서 하나님은 어떤 분입니까</div>
-      <textarea id="f3d" data-label="권하노니 → 하나님은"></textarea></div>
-  </div>
-
-  <label class="f" for="f3e">바울은 무엇으로 권한다고 합니까
-    <span class="mini">무엇을 근거로 이 모든 말을 하고 있습니까</span></label>
-  <input type="text" id="f3e" data-label="바울은 무엇으로 권하는가">
-
-  <label class="f">하나님이 기뻐하시는 제물은 어떤 제물입니까 <span class="mini">세 가지</span></label>
-  <div class="row2">
-    <input type="text" id="f3f1" data-label="제물 ①" placeholder="①">
-    <input type="text" id="f3f2" data-label="제물 ②" placeholder="②">
-    <input type="text" id="f3f3" data-label="제물 ③" placeholder="③">
-  </div>
-
-  <label class="f">하나님의 뜻은 어떤 뜻이라고 합니까 <span class="mini">세 가지</span></label>
-  <div class="row2">
-    <input type="text" id="f3g1" data-label="하나님의 뜻 ①" placeholder="①">
-    <input type="text" id="f3g2" data-label="하나님의 뜻 ②" placeholder="②">
-    <input type="text" id="f3g3" data-label="하나님의 뜻 ③" placeholder="③">
+  <div class="cue">
+    <p><b>하나님이 나오는 네 자리</b> — 하나님의 모든 <b>자비하심</b>으로(1절) · 하나님이
+    <b>기뻐하시는</b> 거룩한 산 제물(1절) · 내가 너희를 <b>권하노니</b>(1절) ·
+    하나님의 <b>선하시고 기뻐하시고 온전하신</b> 뜻(2절)</p>
   </div>
 
   <div class="aside"><span class="lab">놓치기 쉬운 것</span>
@@ -361,9 +315,10 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
     <p>그리고 하나님의 뜻을 "선하시고 기뻐하시고 온전하신"이라고 부릅니다. 하나님의 뜻은 나를 깎아 내는
     뜻이 아니라 나에게 가장 좋은 뜻입니다.</p></div>
 
-  <label class="f" for="f3h">오늘 본문이 보여 주는 하나님은
-    <span class="mini">한 문장으로. "______ 하신 분입니다"</span></label>
-  <textarea id="f3h" data-label="오늘 본문이 보여 주는 하나님은"></textarea>
+  <label class="f" for="f3h">이 본문에서 하나님은 어떤 분으로 나오십니까
+    <span class="mini">네 자리를 천천히 보신 뒤 한 문장으로. "______ 하신 분입니다"</span></label>
+  <textarea id="f3h" data-label="이 본문에서 하나님은"></textarea>
+
 </section>
 
 <!-- 4 ───────────────────────────────── -->
@@ -373,32 +328,11 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
   <p class="lede">같은 두 절을 다시 읽되 이번에는 사람에 관한 표현을 찾습니다. 본문은 우리를 좋게
   꾸미지도 않고 버리지도 않습니다. 명령문 하나하나가 사실은 우리가 어떤 존재인지를 알려 줍니다.</p>
 
-  <div class="find">
-    <div class="card man">
-      <div class="q">너희 몸을 … 산 제물로 <b>드리라</b></div>
-      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
-      <textarea id="f4a" data-label="드리라 → 사람은"></textarea></div>
-    <div class="card man">
-      <div class="q">이 세대를 <b>본받지 말고</b></div>
-      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
-      <textarea id="f4b" data-label="본받지 말고 → 사람은"></textarea></div>
-    <div class="card man">
-      <div class="q">마음을 <b>새롭게 함</b>으로 <b>변화를 받아</b></div>
-      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
-      <textarea id="f4c" data-label="마음을 새롭게 → 사람은"></textarea></div>
-    <div class="card man">
-      <div class="q">하나님의 뜻이 무엇인지 <b>분별하도록 하라</b></div>
-      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
-      <textarea id="f4d" data-label="분별하도록 하라 → 사람은"></textarea></div>
+  <div class="cue">
+    <p><b>사람에게 내려진 네 마디</b> — 너희 몸을 산 제물로 <b>드리라</b> ·
+    이 세대를 <b>본받지 말고</b> · 마음을 <b>새롭게 함</b>으로 <b>변화를 받아</b> ·
+    하나님의 뜻이 무엇인지 <b>분별하도록 하라</b></p>
   </div>
-
-  <h2>생각을 도와주는 질문</h2>
-  <ol class="q">
-    <li>"드리라"고 명령해야 한다는 것은, 사람이 그냥 두면 자기 몸을 누구의 것으로 여긴다는 뜻입니까</li>
-    <li>"본받지 말라"고 해야 한다는 것은, 사람이 그냥 두면 무엇을 본받는다는 뜻입니까</li>
-    <li>"마음을 새롭게"해야 한다는 것은, 지금 내 마음이 어떤 상태라는 뜻입니까</li>
-    <li>"분별하도록 하라"고 해야 한다는 것은, 사람은 하나님의 뜻을 저절로 아는 존재입니까</li>
-  </ol>
 
   <div class="aside warn"><span class="lab">우리의 죄성</span>
     <p>성경이 말하는 죄는 나쁜 짓을 하는 것만이 아닙니다. 가만히 두면 하나님 아닌 것을 따라가고, 내 몸을
@@ -409,9 +343,15 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
     <p>그러나 이것을 보는 것이 절망이 아닙니다. 3단계에서 먼저 보았듯이, 그 앞에 하나님의 자비하심이
     놓여 있기 때문입니다.</p></div>
 
-  <label class="f" for="f4e">오늘 본문이 보여 주는 사람은
+  <label class="f" for="f4e">이 본문에서 사람은, 곧 나는 어떤 모습으로 나옵니까
     <span class="mini">한 문장으로. "______ 입니다"</span></label>
-  <textarea id="f4e" data-label="오늘 본문이 보여 주는 사람은"></textarea>
+  <textarea id="f4e" data-label="이 본문에서 사람은"></textarea>
+
+  <h2>성경 해석 질문</h2>
+  <label class="f" for="f4f">하나님이 굳이 이렇게 말씀하셔야 했다는 것은, 무슨 뜻입니까
+    <span class="mini">명령이 있다는 것은 그렇지 못한 자리가 있다는 뜻입니다</span></label>
+  <textarea id="f4f" data-label="성경 해석 — 이렇게 말씀하셔야 했다는 것은"></textarea>
+
 </section>
 
 <!-- 5 ───────────────────────────────── -->
@@ -421,33 +361,11 @@ nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
   <p class="lede">앞의 두 단계에서 찾은 하나님과 사람 앞에, 이제 내 한 주를 놓습니다. 몸을 드린다는 것은
   추상적인 말이 아니라 내 시간과 내 자리의 이야기입니다. 누구에게 보여 줄 글이 아니니 꾸미지 마십시오.</p>
 
-  <label class="f">지난 한 주, 내 시간이 가장 많이 들어간 세 곳</label>
-  <div class="row2">
-    <input type="text" id="f5a1" data-label="시간이 들어간 곳 ①" placeholder="①">
-    <input type="text" id="f5a2" data-label="시간이 들어간 곳 ②" placeholder="②">
-    <input type="text" id="f5a3" data-label="시간이 들어간 곳 ③" placeholder="③">
-  </div>
+  <label class="f" for="f5h">이 말씀 앞에 내 한 주를 놓는다면, 어디가 가장 걸립니까
+    <span class="mini">내 시간이 가장 많이 들어간 자리 · 하나님이 안 계신 것처럼 지나간 자리 ·
+    내가 쉽게 따라가는 세상의 기준 · 지금 분별해야 할 결정 — 이 가운데 하나만</span></label>
+  <textarea id="f5h" data-label="적용 — 이 말씀 앞에 가장 걸리는 자리"></textarea>
 
-  <label class="f" for="f5b">그중에 "여기도 예배였다"고 말할 수 있는 자리가 있습니까</label>
-  <textarea id="f5b" data-label="여기도 예배였다 싶은 자리"></textarea>
-
-  <label class="f" for="f5c">반대로, 하나님이 안 계신 것처럼 지나간 자리는 어디였습니까</label>
-  <textarea id="f5c" data-label="하나님이 안 계신 것처럼 지나간 자리"></textarea>
-
-  <label class="f" for="f5d">요즘 내가 가장 쉽게 따라가고 있는 세상의 기준은 무엇입니까
-    <span class="mini">더 빨리, 더 많이, 남들만큼, 티 나게, 손해 보지 않게</span></label>
-  <textarea id="f5d" data-label="내가 따라가는 세상의 기준"></textarea>
-
-  <label class="f" for="f5e">지금 내 앞에 분별해야 할 결정이 하나 있다면 무엇입니까</label>
-  <textarea id="f5e" data-label="분별해야 할 결정"></textarea>
-
-  <hr>
-
-  <label class="f" for="f5f">4단계에서 찾은 "사람의 모습" 가운데, 이번 주 나에게 가장 그대로 들어맞는 것</label>
-  <textarea id="f5f" data-label="나에게 들어맞는 사람의 모습"></textarea>
-
-  <label class="f" for="f5g">3단계에서 찾은 "하나님" 가운데, 그런 나에게 지금 가장 필요한 모습</label>
-  <textarea id="f5g" data-label="지금 나에게 필요한 하나님의 모습"></textarea>
 </section>
 
 <!-- 6 ───────────────────────────────── -->
