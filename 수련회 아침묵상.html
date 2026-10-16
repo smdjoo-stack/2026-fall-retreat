@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<style>
+  :root { color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body { margin: 0; font: 14px system-ui, -apple-system, sans-serif; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>수련회 아침묵상</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap">
+
+<style>
+/* 레이아웃: 한 화면에 한 걸음. 위에 고정 머리, 아래에 이동 단추. 성막의 빛깔(청색·자색·홍색)과 세마포에서 가져온 색. */
+:root{
+  --paper:#FBF9F5; --surface:#FFFFFF; --sunk:#F3F0EA;
+  --ink:#1B2433; --muted:#5E6A7D; --faint:#8A94A3;
+  --line:#E4E0D8; --line-soft:#EFECE5;
+  --blue:#2B4A7E; --blue-soft:#EAF0F8; --blue-ink:#23406E;
+  --purple:#6B4A7A; --scarlet:#A8322E; --scarlet-soft:#FAF0EE;
+  --shadow:0 1px 2px rgba(27,36,51,.05), 0 8px 24px rgba(27,36,51,.05);
+  --display:'Gowun Batang', 'Nanum Myeongjo', serif;
+  --body:'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#13171E; --surface:#1A1F28; --sunk:#171C24;
+  --ink:#E9EBEF; --muted:#9BA6B6; --faint:#78828F;
+  --line:#2B323D; --line-soft:#242A33;
+  --blue:#8DB0E0; --blue-soft:#1D2733; --blue-ink:#A6C3EA;
+  --purple:#B995C8; --scarlet:#E4938B; --scarlet-soft:#2A1F1E;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#13171E; --surface:#1A1F28; --sunk:#171C24;
+  --ink:#E9EBEF; --muted:#9BA6B6; --faint:#78828F;
+  --line:#2B323D; --line-soft:#242A33;
+  --blue:#8DB0E0; --blue-soft:#1D2733; --blue-ink:#A6C3EA;
+  --purple:#B995C8; --scarlet:#E4938B; --scarlet-soft:#2A1F1E;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper); color:var(--ink); font-family:var(--body);
+  font-weight:300; font-size:16px; line-height:1.85; margin:0;
+  -webkit-text-size-adjust:100%;}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px);
+  z-index:20; background:var(--surface);}
+
+/* ── 머리 ── */
+header{position:sticky; top:env(safe-area-inset-top,0px); z-index:15;
+  background:var(--surface); border-bottom:1px solid var(--line);}
+.hwrap{max-width:720px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:10px;}
+.hrow{display:flex; align-items:center; gap:12px; justify-content:space-between;}
+.brand{font-family:var(--display); font-size:15px; font-weight:700; color:var(--blue-ink);
+  letter-spacing:-.2px; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.brand small{display:block; font-family:var(--body); font-weight:400; font-size:10.5px;
+  color:var(--faint); letter-spacing:.06em; line-height:1.4;}
+.clock{flex:none; display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+  font-size:12px; font-variant-numeric:tabular-nums; color:var(--muted);
+  background:var(--sunk); border:1px solid var(--line); border-radius:999px;
+  padding:5px 11px; font-family:var(--body);}
+.clock:hover{color:var(--ink)}
+.clock .dot{width:6px; height:6px; border-radius:50%; background:var(--faint)}
+.clock.run .dot{background:var(--scarlet)}
+.rail{display:flex; gap:5px; margin-top:9px;}
+.rail button{flex:1; height:4px; border:0; padding:0; border-radius:2px;
+  background:var(--line); cursor:pointer; transition:background .2s;}
+.rail button[aria-current="true"]{background:var(--blue)}
+.rail button.done{background:var(--blue-soft)}
+.rail button:focus-visible{outline:2px solid var(--blue); outline-offset:3px}
+
+/* ── 본문 ── */
+main{max-width:720px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:30px 8px;}
+.eyebrow{font-size:11px; font-weight:600; letter-spacing:.1em; color:var(--blue);
+  text-transform:none; margin:0 0 8px;}
+h1{font-family:var(--display); font-weight:700; font-size:clamp(28px,7.4vw,38px);
+  line-height:1.32; letter-spacing:-.5px; margin:0 0 14px; text-wrap:balance;}
+h2{font-family:var(--display); font-weight:700; font-size:19px; line-height:1.5;
+  margin:34px 0 10px; letter-spacing:-.2px; text-wrap:balance;}
+h3{font-size:14.5px; font-weight:600; color:var(--blue-ink); margin:24px 0 6px;}
+p{margin:0 0 13px; max-width:62ch}
+.lede{font-size:16.5px; color:var(--muted); margin-bottom:22px}
+.fine{font-size:13px; color:var(--muted)}
+em{font-style:normal; font-weight:500; color:var(--ink)}
+hr{border:0; border-top:1px solid var(--line-soft); margin:30px 0}
+
+/* 말씀 */
+.verse{font-family:var(--display); font-size:17px; line-height:1.95;
+  background:var(--blue-soft); border-left:3px solid var(--blue);
+  border-radius:0 6px 6px 0; padding:18px 20px; margin:18px 0 20px;}
+.verse p{margin:0 0 10px; max-width:none} .verse p:last-child{margin:0}
+.verse .n{font-family:var(--body); font-size:12px; font-weight:600; color:var(--blue);
+  vertical-align:2px; margin-right:5px;}
+.verse .src{font-family:var(--body); font-size:11.5px; color:var(--faint); letter-spacing:.04em}
+
+/* 눈 두 개 */
+.eyes{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:18px 0 6px}
+@media (max-width:460px){ .eyes{grid-template-columns:1fr} }
+.eye{background:var(--surface); border:1px solid var(--line); border-radius:8px;
+  padding:15px 16px; box-shadow:var(--shadow)}
+.eye .t{font-family:var(--display); font-size:17px; font-weight:700; margin-bottom:5px}
+.eye.god .t{color:var(--blue-ink)} .eye.man .t{color:var(--scarlet)}
+.eye p{font-size:13.5px; color:var(--muted); margin:0; max-width:none}
+
+/* 걸음표 */
+.steps{border:1px solid var(--line); border-radius:8px; overflow:hidden; margin:16px 0 4px}
+.steps div{display:grid; grid-template-columns:auto 52px 1fr; gap:12px; align-items:baseline;
+  padding:11px 15px; border-top:1px solid var(--line-soft); font-size:13.5px}
+.steps div:first-child{border-top:0}
+.steps div.hi{background:var(--blue-soft)}
+.steps .k{font-weight:600; color:var(--blue-ink); white-space:nowrap}
+.steps .m{color:var(--faint); font-size:12.5px; font-variant-numeric:tabular-nums}
+.steps .d{color:var(--muted); min-width:0}
+
+/* 찾기 카드 */
+.find{display:flex; flex-direction:column; gap:12px; margin:16px 0 8px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:8px;
+  padding:14px 16px 15px; box-shadow:var(--shadow)}
+.card .q{font-family:var(--display); font-size:16.5px; line-height:1.65; margin-bottom:3px}
+.card .q b{font-weight:700; color:var(--blue-ink)}
+.card.man .q b{color:var(--scarlet)}
+.card .tag{font-size:11px; color:var(--faint); letter-spacing:.06em; margin-bottom:7px}
+.card .ask{font-size:12.5px; color:var(--muted); margin-bottom:6px}
+
+/* 적는 곳 */
+label.f{display:block; font-size:13.5px; font-weight:500; color:var(--blue-ink); margin:18px 0 6px}
+label.f .mini{display:block; font-weight:300; font-size:12.5px; color:var(--muted); margin-top:2px}
+textarea, input[type=text]{width:100%; font-family:var(--body); font-size:15.5px; font-weight:300;
+  line-height:1.75; color:var(--ink); background:var(--sunk);
+  border:1px solid var(--line); border-radius:7px; padding:11px 13px; resize:vertical;}
+textarea{min-height:72px}
+textarea:focus, input[type=text]:focus{outline:2px solid var(--blue); outline-offset:1px;
+  background:var(--surface)}
+.row2{display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px}
+@media (max-width:520px){ .row2{grid-template-columns:1fr} }
+
+/* 짚고 넘어가기 */
+.aside{border:1px solid var(--line); background:var(--surface); border-radius:8px;
+  padding:15px 17px; margin:22px 0; font-size:14px; line-height:1.8}
+.aside .lab{display:block; font-size:11px; font-weight:600; letter-spacing:.08em;
+  color:var(--blue); margin-bottom:5px}
+.aside p{margin:0 0 9px; max-width:none} .aside p:last-child{margin:0}
+.aside.warn{background:var(--scarlet-soft); border-color:var(--scarlet)}
+.aside.warn .lab{color:var(--scarlet)}
+
+ol.q, ul.r{padding-left:19px; margin:12px 0 16px}
+ol.q li, ul.r li{margin-bottom:9px; max-width:62ch}
+ul.r{list-style:none; padding-left:0}
+ul.r li{position:relative; padding-left:20px}
+ul.r li::before{content:""; position:absolute; left:2px; top:12px; width:7px; height:7px;
+  border:1.5px solid var(--faint); border-radius:1px}
+
+/* 나눔 진행표 */
+.flow{display:flex; flex-direction:column; gap:0; border:1px solid var(--line);
+  border-radius:8px; overflow:hidden; margin:16px 0}
+.flow div{display:grid; grid-template-columns:48px 1fr; gap:14px; padding:12px 15px;
+  border-top:1px solid var(--line-soft); font-size:14px; align-items:start}
+.flow div:first-child{border-top:0}
+.flow .m{font-weight:600; color:var(--blue-ink); font-variant-numeric:tabular-nums}
+.flow .d{min-width:0} .flow .d b{display:block; font-weight:500}
+.flow .d span{color:var(--muted); font-size:13px}
+
+/* 마무리 */
+.stamp{font-family:var(--display); font-size:19px; font-weight:700; color:var(--blue-ink);
+  text-align:center; margin:30px 0 6px}
+.pull{font-family:var(--display); font-size:16px; line-height:1.9; color:var(--muted);
+  border-left:2px solid var(--line); padding-left:15px; margin:20px 0}
+
+/* 모아보기 */
+.tools{display:flex; flex-wrap:wrap; gap:9px; margin:18px 0 6px}
+button.btn{font-family:var(--body); font-size:14px; font-weight:500; cursor:pointer;
+  background:var(--surface); color:var(--blue-ink); border:1px solid var(--blue);
+  border-radius:7px; padding:9px 16px;}
+button.btn:hover{background:var(--blue-soft)}
+button.btn.ghost{border-color:var(--line); color:var(--muted)}
+button.btn:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+#gathered{margin-top:14px; min-height:220px; font-size:14px}
+
+/* 아래 이동 */
+nav.nav{max-width:720px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:16px 40px; display:flex; gap:10px; align-items:center;}
+nav.nav button{flex:1; font-family:var(--body); font-size:15px; font-weight:500;
+  padding:13px 10px; border-radius:8px; cursor:pointer; border:1px solid var(--line);
+  background:var(--surface); color:var(--muted);}
+nav.nav button.go{background:var(--blue); border-color:var(--blue); color:#fff; flex:1.6}
+:root[data-theme="dark"] nav.nav button.go, html:not([data-theme="light"]) nav.nav button.go{color:#11161D}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]) nav.nav button.go{color:#fff} }
+nav.nav button[disabled]{opacity:.4; cursor:default}
+nav.nav button:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+.saved{text-align:center; font-size:11.5px; color:var(--faint); min-height:17px;
+  letter-spacing:.04em; padding-bottom:4px}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <div class="hrow">
+      <div class="brand">그러므로 너희 몸을 드리라<small>2026 온교회 가을수련회 · 토요일 09:00</small></div>
+      <button class="clock" id="clock" type="button" aria-live="off"><span class="dot"></span><span id="clocktxt">00:00</span></button>
+    </div>
+    <div class="rail" id="rail" role="tablist" aria-label="묵상 단계"></div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 0 ───────────────────────────────── -->
+<section data-step="시작" data-min="">
+  <p class="eyebrow">로마서 12장 1절에서 2절 · 혼자 하는 시간 35분</p>
+  <h1>그러므로<br>너희 몸을 드리라</h1>
+  <p class="lede">수련회의 첫 말씀 시간입니다. 조용한 자리를 찾아 앉으시고, 휴대전화의 다른 알림은 꺼
+  두십시오. 이 시간은 공부가 아니라 그 자체로 한 번의 예배입니다.</p>
+
+  <div class="verse">
+    <p><span class="n">1</span>그러므로 형제들아 내가 하나님의 모든 자비하심으로 너희를 권하노니 너희 몸을
+    하나님이 기뻐하시는 거룩한 산 제물로 드리라 이는 너희가 드릴 영적 예배니라</p>
+    <p><span class="n">2</span>너희는 이 세대를 본받지 말고 오직 마음을 새롭게 함으로 변화를 받아 하나님의
+    선하시고 기뻐하시고 온전하신 뜻이 무엇인지 분별하도록 하라</p>
+    <p class="src">개역개정</p>
+  </div>
+
+  <h2>왜 이 본문인가</h2>
+  <p>로마서 12장 1절은 <em>그러므로</em>로 시작합니다. 앞에 먼저 있는 것이 있다는 뜻입니다. 로마서
+  1장부터 11장까지 바울이 쏟아 놓은 하나님의 자비하심이 먼저 있고, 우리의 예배는 그 자비에 대한
+  응답입니다. 오늘 오후 소그룹에서 읽을 히브리서 10장 19절도 똑같이 <em>그러므로</em>로 시작합니다.</p>
+  <p>그리고 그 응답은 한 시간이 아니라 몸 전체입니다. 성막의 제물은 죽은 제물이었지만, 우리가 드리는
+  것은 산 제물입니다. 날마다 걸어 다니는 제물입니다.</p>
+
+  <h2>오늘 묵상의 두 가지 눈</h2>
+  <div class="eyes">
+    <div class="eye god"><div class="t">하나님 찾기</div>
+      <p>이 본문에서 하나님은 어떤 분으로 나오시는가</p></div>
+    <div class="eye man"><div class="t">사람 찾기</div>
+      <p>이 본문에서 사람은, 곧 나는 어떤 모습으로 나오는가</p></div>
+  </div>
+  <p class="fine">이 둘을 놓치면 성경을 읽어도 교훈만 남고 하나님은 사라집니다. 적용은 그다음입니다.</p>
+
+  <h2>묵상의 여섯 걸음</h2>
+  <div class="steps">
+    <div><span class="k">1 멈추기</span><span class="m">3분</span><span class="d">지금 내 마음을 하나님께 맡겨 드립니다.</span></div>
+    <div><span class="k">2 읽기</span><span class="m">5분</span><span class="d">본문을 세 번 읽고 걸리는 한 단어에 표시합니다.</span></div>
+    <div class="hi"><span class="k">3 하나님 찾기</span><span class="m">7분</span><span class="d">하나님은 어떤 분으로 나오시는지 찾습니다.</span></div>
+    <div class="hi"><span class="k">4 사람 찾기</span><span class="m">7분</span><span class="d">사람은 어떤 모습으로 나오는지 찾습니다.</span></div>
+    <div><span class="k">5 비추기</span><span class="m">8분</span><span class="d">찾은 것 앞에 나의 한 주를 펼쳐 놓습니다.</span></div>
+    <div><span class="k">6 드리기</span><span class="m">5분</span><span class="d">읽은 말씀으로 실제로 한 번 예배를 드립니다.</span></div>
+    <div><span class="k">이어서 09:35</span><span class="m">25분</span><span class="d">둘러앉아 서로 나눕니다.</span></div>
+  </div>
+  <p class="fine">여기에 적은 것은 이 기기에만 저장됩니다. 다른 사람에게 전해지지 않습니다.</p>
+</section>
+
+<!-- 1 ───────────────────────────────── -->
+<section data-step="멈추기" data-min="3분" hidden>
+  <p class="eyebrow">1단계 멈추기 · 3분</p>
+  <h1>먼저 내려놓습니다</h1>
+  <p class="lede">아무것도 읽지 않고, 아무것도 적지 않습니다. 눈을 감고 지금 내 마음에 가장 크게 자리
+  잡고 있는 것을 하나 떠올립니다. 걱정이든, 피곤함이든, 설렘이든 괜찮습니다. 억지로 밀어내지 말고
+  하나님께 이름을 불러 맡겨 드립니다.</p>
+
+  <div class="pull">
+    <p>하나님, 지금 제 마음에는 ______________이(가) 있습니다.<br>
+    이것을 들고 당신 앞에 앉습니다.<br>
+    이 자리는 제가 연 자리가 아니라 당신이 열어 주신 자리인 줄 압니다.</p>
+  </div>
+
+  <label class="f" for="f1">지금 내 마음에 있는 것
+    <span class="mini">적고 싶지 않으면 비워 두셔도 됩니다. 3분이 지나면 다음으로 넘어가세요.</span></label>
+  <input type="text" id="f1" data-label="지금 내 마음에 있는 것" placeholder="한 단어여도 좋습니다">
+</section>
+
+<!-- 2 ───────────────────────────────── -->
+<section data-step="읽기" data-min="5분" hidden>
+  <p class="eyebrow">2단계 읽기 · 5분</p>
+  <h1>세 번 읽습니다</h1>
+  <p class="lede">두 절뿐입니다. 짧으니 더 천천히 읽으십시오.</p>
+
+  <div class="verse">
+    <p><span class="n">1</span>그러므로 형제들아 내가 하나님의 모든 자비하심으로 너희를 권하노니 너희 몸을
+    하나님이 기뻐하시는 거룩한 산 제물로 드리라 이는 너희가 드릴 영적 예배니라</p>
+    <p><span class="n">2</span>너희는 이 세대를 본받지 말고 오직 마음을 새롭게 함으로 변화를 받아 하나님의
+    선하시고 기뻐하시고 온전하신 뜻이 무엇인지 분별하도록 하라</p>
+  </div>
+
+  <h3>첫 번째</h3>
+  <p>눈으로 읽습니다. 문장의 뼈대만 봅니다.</p>
+  <h3>두 번째</h3>
+  <p>소리 내어 천천히 읽습니다. <em>그러므로</em>와 <em>산 제물</em>과 <em>분별하도록</em>에서
+  한 번씩 멈추어 보세요.</p>
+  <h3>세 번째</h3>
+  <p>읽으면서 마음에 걸리는 한 단어를 고릅니다. 좋아서 걸릴 수도 있고, 불편해서 걸릴 수도 있습니다.</p>
+
+  <label class="f" for="f2a">내가 고른 단어</label>
+  <input type="text" id="f2a" data-label="내가 고른 단어" placeholder="한 단어">
+  <label class="f" for="f2b">왜 그 단어였습니까</label>
+  <textarea id="f2b" data-label="왜 그 단어였습니까"></textarea>
+</section>
+
+<!-- 3 ───────────────────────────────── -->
+<section data-step="하나님 찾기" data-min="7분" hidden>
+  <p class="eyebrow">3단계 하나님 찾기 · 7분</p>
+  <h1>하나님은 어떤 분으로<br>나오십니까</h1>
+  <p class="lede">두 절 안에 하나님이 네 번 나옵니다. 내 생각이 아니라 본문이 말하는 것만 적습니다.</p>
+
+  <div class="find">
+    <div class="card"><div class="tag">1절</div>
+      <div class="q">하나님의 모든 <b>자비하심</b>으로</div>
+      <div class="ask">그래서 하나님은 어떤 분입니까</div>
+      <textarea id="f3a" data-label="자비하심 → 하나님은"></textarea></div>
+    <div class="card"><div class="tag">1절</div>
+      <div class="q">하나님이 <b>기뻐하시는</b> 거룩한 산 제물</div>
+      <div class="ask">그래서 하나님은 어떤 분입니까</div>
+      <textarea id="f3b" data-label="기뻐하시는 → 하나님은"></textarea></div>
+    <div class="card"><div class="tag">2절</div>
+      <div class="q">하나님의 <b>선하시고 기뻐하시고 온전하신</b> 뜻</div>
+      <div class="ask">그래서 하나님은 어떤 분입니까</div>
+      <textarea id="f3c" data-label="선하시고 온전하신 뜻 → 하나님은"></textarea></div>
+    <div class="card"><div class="tag">1절 · 명령이 아니라 권함입니다</div>
+      <div class="q">내가 너희를 <b>권하노니</b></div>
+      <div class="ask">그래서 하나님은 어떤 분입니까</div>
+      <textarea id="f3d" data-label="권하노니 → 하나님은"></textarea></div>
+  </div>
+
+  <label class="f" for="f3e">바울은 무엇으로 권한다고 합니까
+    <span class="mini">무엇을 근거로 이 모든 말을 하고 있습니까</span></label>
+  <input type="text" id="f3e" data-label="바울은 무엇으로 권하는가">
+
+  <label class="f">하나님이 기뻐하시는 제물은 어떤 제물입니까 <span class="mini">세 가지</span></label>
+  <div class="row2">
+    <input type="text" id="f3f1" data-label="제물 ①" placeholder="①">
+    <input type="text" id="f3f2" data-label="제물 ②" placeholder="②">
+    <input type="text" id="f3f3" data-label="제물 ③" placeholder="③">
+  </div>
+
+  <label class="f">하나님의 뜻은 어떤 뜻이라고 합니까 <span class="mini">세 가지</span></label>
+  <div class="row2">
+    <input type="text" id="f3g1" data-label="하나님의 뜻 ①" placeholder="①">
+    <input type="text" id="f3g2" data-label="하나님의 뜻 ②" placeholder="②">
+    <input type="text" id="f3g3" data-label="하나님의 뜻 ③" placeholder="③">
+  </div>
+
+  <div class="aside"><span class="lab">놓치기 쉬운 것</span>
+    <p>이 본문은 "드리라"는 명령문처럼 읽힙니다. 그런데 그 명령 앞에 "하나님의 모든 자비하심으로"가
+    먼저 놓여 있습니다. 하나님은 요구하시기 전에 주시는 분입니다.</p>
+    <p>그리고 하나님의 뜻을 "선하시고 기뻐하시고 온전하신"이라고 부릅니다. 하나님의 뜻은 나를 깎아 내는
+    뜻이 아니라 나에게 가장 좋은 뜻입니다.</p></div>
+
+  <label class="f" for="f3h">오늘 본문이 보여 주는 하나님은
+    <span class="mini">한 문장으로. "______ 하신 분입니다"</span></label>
+  <textarea id="f3h" data-label="오늘 본문이 보여 주는 하나님은"></textarea>
+</section>
+
+<!-- 4 ───────────────────────────────── -->
+<section data-step="사람 찾기" data-min="7분" hidden>
+  <p class="eyebrow">4단계 사람 찾기 · 7분</p>
+  <h1>사람은 어떤 모습으로<br>나옵니까</h1>
+  <p class="lede">같은 두 절을 다시 읽되 이번에는 사람에 관한 표현을 찾습니다. 본문은 우리를 좋게
+  꾸미지도 않고 버리지도 않습니다. 명령문 하나하나가 사실은 우리가 어떤 존재인지를 알려 줍니다.</p>
+
+  <div class="find">
+    <div class="card man">
+      <div class="q">너희 몸을 … 산 제물로 <b>드리라</b></div>
+      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
+      <textarea id="f4a" data-label="드리라 → 사람은"></textarea></div>
+    <div class="card man">
+      <div class="q">이 세대를 <b>본받지 말고</b></div>
+      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
+      <textarea id="f4b" data-label="본받지 말고 → 사람은"></textarea></div>
+    <div class="card man">
+      <div class="q">마음을 <b>새롭게 함</b>으로 <b>변화를 받아</b></div>
+      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
+      <textarea id="f4c" data-label="마음을 새롭게 → 사람은"></textarea></div>
+    <div class="card man">
+      <div class="q">하나님의 뜻이 무엇인지 <b>분별하도록 하라</b></div>
+      <div class="ask">그렇게 말해야 한다는 것은, 사람은 어떤 존재입니까</div>
+      <textarea id="f4d" data-label="분별하도록 하라 → 사람은"></textarea></div>
+  </div>
+
+  <h2>생각을 도와주는 질문</h2>
+  <ol class="q">
+    <li>"드리라"고 명령해야 한다는 것은, 사람이 그냥 두면 자기 몸을 누구의 것으로 여긴다는 뜻입니까</li>
+    <li>"본받지 말라"고 해야 한다는 것은, 사람이 그냥 두면 무엇을 본받는다는 뜻입니까</li>
+    <li>"마음을 새롭게"해야 한다는 것은, 지금 내 마음이 어떤 상태라는 뜻입니까</li>
+    <li>"분별하도록 하라"고 해야 한다는 것은, 사람은 하나님의 뜻을 저절로 아는 존재입니까</li>
+  </ol>
+
+  <div class="aside warn"><span class="lab">우리의 죄성</span>
+    <p>성경이 말하는 죄는 나쁜 짓을 하는 것만이 아닙니다. 가만히 두면 하나님 아닌 것을 따라가고, 내 몸을
+    내 것으로 여기고, 하나님의 뜻을 내 기준에 맞추어 깎는 기울어짐입니다.</p>
+    <p>산 제물의 어려움이 바로 여기에 있습니다. 죽은 제물은 제단에 가만히 있지만, 산 제물은 걸어
+    내려옵니다. 월요일 아침이면 내려와 있고, 회의 자리에서 내려와 있고, 지친 저녁이면 이미 내려와
+    있습니다. 그래서 날마다 다시 올라가야 합니다.</p>
+    <p>그러나 이것을 보는 것이 절망이 아닙니다. 3단계에서 먼저 보았듯이, 그 앞에 하나님의 자비하심이
+    놓여 있기 때문입니다.</p></div>
+
+  <label class="f" for="f4e">오늘 본문이 보여 주는 사람은
+    <span class="mini">한 문장으로. "______ 입니다"</span></label>
+  <textarea id="f4e" data-label="오늘 본문이 보여 주는 사람은"></textarea>
+</section>
+
+<!-- 5 ───────────────────────────────── -->
+<section data-step="비추기" data-min="8분" hidden>
+  <p class="eyebrow">5단계 비추기 · 8분</p>
+  <h1>나의 한 주를 펼쳐 놓습니다</h1>
+  <p class="lede">앞의 두 단계에서 찾은 하나님과 사람 앞에, 이제 내 한 주를 놓습니다. 몸을 드린다는 것은
+  추상적인 말이 아니라 내 시간과 내 자리의 이야기입니다. 누구에게 보여 줄 글이 아니니 꾸미지 마십시오.</p>
+
+  <label class="f">지난 한 주, 내 시간이 가장 많이 들어간 세 곳</label>
+  <div class="row2">
+    <input type="text" id="f5a1" data-label="시간이 들어간 곳 ①" placeholder="①">
+    <input type="text" id="f5a2" data-label="시간이 들어간 곳 ②" placeholder="②">
+    <input type="text" id="f5a3" data-label="시간이 들어간 곳 ③" placeholder="③">
+  </div>
+
+  <label class="f" for="f5b">그중에 "여기도 예배였다"고 말할 수 있는 자리가 있습니까</label>
+  <textarea id="f5b" data-label="여기도 예배였다 싶은 자리"></textarea>
+
+  <label class="f" for="f5c">반대로, 하나님이 안 계신 것처럼 지나간 자리는 어디였습니까</label>
+  <textarea id="f5c" data-label="하나님이 안 계신 것처럼 지나간 자리"></textarea>
+
+  <label class="f" for="f5d">요즘 내가 가장 쉽게 따라가고 있는 세상의 기준은 무엇입니까
+    <span class="mini">더 빨리, 더 많이, 남들만큼, 티 나게, 손해 보지 않게</span></label>
+  <textarea id="f5d" data-label="내가 따라가는 세상의 기준"></textarea>
+
+  <label class="f" for="f5e">지금 내 앞에 분별해야 할 결정이 하나 있다면 무엇입니까</label>
+  <textarea id="f5e" data-label="분별해야 할 결정"></textarea>
+
+  <hr>
+
+  <label class="f" for="f5f">4단계에서 찾은 "사람의 모습" 가운데, 이번 주 나에게 가장 그대로 들어맞는 것</label>
+  <textarea id="f5f" data-label="나에게 들어맞는 사람의 모습"></textarea>
+
+  <label class="f" for="f5g">3단계에서 찾은 "하나님" 가운데, 그런 나에게 지금 가장 필요한 모습</label>
+  <textarea id="f5g" data-label="지금 나에게 필요한 하나님의 모습"></textarea>
+</section>
+
+<!-- 6 ───────────────────────────────── -->
+<section data-step="드리기" data-min="5분" hidden>
+  <p class="eyebrow">6단계 드리기 · 5분</p>
+  <h1>이제 한 번 드립니다</h1>
+  <p class="lede">마지막은 적는 시간이 아니라 드리는 시간입니다. 네 걸음을 차례로 소리 내어, 혹은
+  속으로 올려 드리십시오.</p>
+
+  <h3>하나. 감사</h3>
+  <p class="fine">지난 한 주에서 세 가지를 찾아 하나님께 말씀드립니다.</p>
+  <div class="row2">
+    <input type="text" id="f6a1" data-label="감사 ①" placeholder="①">
+    <input type="text" id="f6a2" data-label="감사 ②" placeholder="②">
+    <input type="text" id="f6a3" data-label="감사 ③" placeholder="③">
+  </div>
+
+  <h3>둘. 고백</h3>
+  <p class="fine">4단계 사람 찾기와 5단계에서 적은 것을 그대로 가지고 나아갑니다. 숨기지 않아도 됩니다.</p>
+  <textarea id="f6b" data-label="고백"></textarea>
+
+  <h3>셋. 드림</h3>
+  <p class="fine">오늘 하나님께 실제로 드리고 싶은 것 하나. 시간, 돈, 관계, 계획, 혹은 내려놓지 못하던
+  마음 하나일 수 있습니다.</p>
+  <textarea id="f6c" data-label="드림"></textarea>
+
+  <h3>넷. 구함</h3>
+  <label class="f" for="f6d1">나를 위해</label>
+  <input type="text" id="f6d1" data-label="구함 · 나를 위해">
+  <label class="f" for="f6d2">남을 위해</label>
+  <input type="text" id="f6d2" data-label="구함 · 남을 위해">
+
+  <hr>
+
+  <h2>09시 35분에 나눌 한 가지</h2>
+  <p>묵상한 것을 전부 말할 필요는 없습니다. 아래 두 줄 중 편한 쪽으로 한 가지만 적으십시오.</p>
+  <label class="f" for="f6e">오늘 본문에서 내가 만난 하나님은</label>
+  <textarea id="f6e" data-label="★ 나눌 한 가지 · 내가 만난 하나님"></textarea>
+  <label class="f" for="f6f">오늘 본문 앞에서 드러난 내 모습은</label>
+  <textarea id="f6f" data-label="★ 나눌 한 가지 · 드러난 내 모습"></textarea>
+
+  <div class="pull">
+    <p>"너희 안에서 착한 일을 시작하신 이가 그리스도 예수의 날까지 이루실 줄을 우리는 확신하노라"<br>
+    <span class="fine">빌립보서 1장 6절</span></p>
+  </div>
+  <div class="stamp">우리는 걷고 하나님이 이루십니다</div>
+</section>
+
+<!-- 7 ───────────────────────────────── -->
+<section data-step="아침 나눔" data-min="25분" hidden>
+  <p class="eyebrow">토요일 09:35 · 함께 25분</p>
+  <h1>아침 나눔</h1>
+  <p class="lede">혼자 적은 것을 들고 둘러앉습니다. 설교도 토론도 아닙니다. 각자 하나님 앞에서 본 것을
+  그대로 꺼내 놓고, 나머지는 듣습니다.</p>
+
+  <h2>이렇게 진행합니다</h2>
+  <div class="flow">
+    <div><span class="m">3분</span><span class="d"><b>함께 읽기</b>
+      <span>로마서 12장 1-2절을 한 사람이 소리 내어 읽습니다. 잠시 침묵합니다.</span></span></div>
+    <div><span class="m">14분</span><span class="d"><b>한 사람씩</b>
+      <span>적어 둔 한 가지를 읽습니다. 한 사람당 2분을 넘기지 않습니다.</span></span></div>
+    <div><span class="m">5분</span><span class="d"><b>한 가지만 더</b>
+      <span>들으면서 가장 마음에 남은 것을 한두 사람이 말합니다.</span></span></div>
+    <div><span class="m">3분</span><span class="d"><b>기도</b>
+      <span>옆 사람을 위해 한 문장씩 기도합니다.</span></span></div>
+  </div>
+
+  <h2>나눌 때 지킬 것</h2>
+  <ul class="r">
+    <li>조언하지 않습니다. "그랬군요" 한마디면 충분합니다.</li>
+    <li>남의 이야기를 평가하거나 보태지 않습니다.</li>
+    <li>여기서 들은 이야기는 여기서 끝냅니다.</li>
+    <li>말하지 않을 자유는 있지만, 한 문장이라도 꺼내 봅니다.</li>
+  </ul>
+
+  <label class="f" for="f7a">듣고 나서 — 다른 사람의 말 가운데 내 마음에 남은 한 문장
+    <span class="mini">오후 소그룹 마음 열기에서 다시 쓰게 됩니다.</span></label>
+  <textarea id="f7a" data-label="남의 말 가운데 남은 한 문장"></textarea>
+
+  <div class="aside"><span class="lab">오후를 위해</span>
+    <p>오후 소그룹에서는 같은 "그러므로"로 시작하는 또 하나의 말씀을 함께 봅니다. 아침에 "드리라"는 말씀
+    앞에서 내 부족함을 보셨다면, 그 말씀 앞에 무엇이 먼저 놓여 있었는지를 그 자리에서 보게 될 것입니다.
+    그러니 오늘 아침에 보신 내 모습을 그대로 들고 가십시오.</p></div>
+
+  <hr>
+  <h2>내가 적은 것 모아보기</h2>
+  <p class="fine">오늘 적은 것을 한데 모읍니다. 복사해서 메모장이나 대화방에 옮겨 두셔도 좋습니다.</p>
+  <div class="tools">
+    <button class="btn" id="gather" type="button">모아보기</button>
+    <button class="btn ghost" id="copy" type="button">복사</button>
+    <button class="btn ghost" id="wipe" type="button">적은 것 모두 지우기</button>
+  </div>
+  <textarea id="gathered" readonly aria-label="모아본 내용" placeholder="모아보기를 누르면 여기에 모입니다."></textarea>
+</section>
+
+</main>
+
+<div class="saved" id="saved"></div>
+<nav class="nav">
+  <button id="prev" type="button">이전</button>
+  <button id="next" type="button" class="go">다음</button>
+</nav>
+
+<script>
+(function(){
+  var secs = Array.prototype.slice.call(document.querySelectorAll('main > section'));
+  var rail = document.getElementById('rail');
+  var prev = document.getElementById('prev'), next = document.getElementById('next');
+  var saved = document.getElementById('saved');
+  var cur = 0;
+
+  /* ── 단계 막대 ── */
+  secs.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-label', s.dataset.step + (s.dataset.min ? ' ' + s.dataset.min : ''));
+    b.title = s.dataset.step;
+    b.addEventListener('click', function(){ show(i); });
+    rail.appendChild(b);
+  });
+  var tabs = Array.prototype.slice.call(rail.children);
+
+  function show(i){
+    cur = Math.max(0, Math.min(secs.length - 1, i));
+    secs.forEach(function(s, n){ s.hidden = (n !== cur); });
+    tabs.forEach(function(t, n){
+      t.setAttribute('aria-current', n === cur ? 'true' : 'false');
+      t.classList.toggle('done', n < cur);
+    });
+    prev.disabled = (cur === 0);
+    next.disabled = (cur === secs.length - 1);
+    next.textContent = cur === 0 ? '시작하기' :
+      (cur === secs.length - 1 ? '마지막 걸음' : '다음 — ' + secs[cur + 1].dataset.step);
+    prev.textContent = cur === 0 ? '이전' : '이전 — ' + secs[cur - 1].dataset.step;
+    window.scrollTo(0, 0);
+    try { sessionStorage.setItem('onstep', String(cur)); } catch(e){}
+  }
+  prev.addEventListener('click', function(){ show(cur - 1); });
+  next.addEventListener('click', function(){ show(cur + 1); });
+
+  /* ── 적은 것 저장 (이 기기에만) ── */
+  var KEY = 'onchurch.rom12.v1';
+  var fields = Array.prototype.slice.call(document.querySelectorAll('[data-label]'));
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ store = {}; }
+  fields.forEach(function(f){ if (typeof store[f.id] === 'string') f.value = store[f.id]; });
+
+  var t = null;
+  function flash(msg){
+    saved.textContent = msg;
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ saved.textContent = ''; }, 1600);
+  }
+  fields.forEach(function(f){
+    f.addEventListener('input', function(){
+      store[f.id] = f.value;
+      clearTimeout(t);
+      t = setTimeout(function(){
+        try { localStorage.setItem(KEY, JSON.stringify(store)); flash('이 기기에 저장되었습니다'); }
+        catch(e){ flash('저장할 수 없는 환경입니다. 적은 것을 따로 옮겨 두세요'); }
+      }, 500);
+    });
+  });
+
+  /* ── 모아보기 ── */
+  var out = document.getElementById('gathered');
+  document.getElementById('gather').addEventListener('click', function(){
+    var lines = ['로마서 12:1-2 묵상 — 2026 온교회 가을수련회', ''];
+    secs.forEach(function(s){
+      var fs = Array.prototype.slice.call(s.querySelectorAll('[data-label]'))
+                 .filter(function(f){ return f.value.trim(); });
+      if (!fs.length) return;
+      lines.push('[' + s.dataset.step + ']');
+      fs.forEach(function(f){ lines.push('· ' + f.dataset.label + ': ' + f.value.trim()); });
+      lines.push('');
+    });
+    out.value = lines.length > 2 ? lines.join('\n').trim()
+      : '아직 적은 것이 없습니다. 앞의 단계로 돌아가 보세요.';
+  });
+  document.getElementById('copy').addEventListener('click', function(){
+    if (!out.value.trim()) { flash('먼저 모아보기를 눌러 주세요'); return; }
+    var done = function(){ flash('복사했습니다'); };
+    try {
+      navigator.clipboard.writeText(out.value).then(done, function(){ out.select(); flash('길게 눌러 복사하세요'); });
+    } catch(e){ out.select(); flash('길게 눌러 복사하세요'); }
+  });
+  var wipe = document.getElementById('wipe'), armed = false;
+  wipe.addEventListener('click', function(){
+    if (!armed){ armed = true; wipe.textContent = '한 번 더 누르면 지워집니다';
+      setTimeout(function(){ armed = false; wipe.textContent = '적은 것 모두 지우기'; }, 4000); return; }
+    fields.forEach(function(f){ f.value = ''; });
+    store = {}; out.value = '';
+    try { localStorage.removeItem(KEY); } catch(e){}
+    armed = false; wipe.textContent = '적은 것 모두 지우기';
+    flash('모두 지웠습니다');
+  });
+
+  /* ── 지난 시간 ── */
+  var clock = document.getElementById('clock'), ctxt = document.getElementById('clocktxt');
+  var running = false, start = 0, acc = 0, tick = null;
+  function paint(){
+    var ms = acc + (running ? Date.now() - start : 0);
+    var s = Math.floor(ms / 1000);
+    ctxt.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  }
+  clock.addEventListener('click', function(){
+    if (running){ acc += Date.now() - start; running = false; clearInterval(tick); }
+    else { start = Date.now(); running = true; tick = setInterval(paint, 1000); }
+    clock.classList.toggle('run', running);
+    clock.setAttribute('aria-label', running ? '지난 시간 멈추기' : '지난 시간 재기');
+    paint();
+  });
+  clock.setAttribute('aria-label', '지난 시간 재기');
+
+  try {
+    var back = parseInt(sessionStorage.getItem('onstep') || '0', 10);
+    if (back > 0 && back < secs.length) cur = back;
+  } catch(e){}
+  show(cur);
+})();
+</script>
+</body>
+</html>
