@@ -261,14 +261,17 @@
        max-width:var(--measure);}
   .fld .mini{display:block; margin-top:3px; font-weight:400; font-size:.83rem;
              color:var(--ink-2); line-height:1.7;}
-  #v-quiet input[type=text], #v-quiet textarea{
+  #v-quiet input[type=text], #v-quiet textarea,
+  #v-group input[type=text], #v-group textarea{
       display:block; width:100%; max-width:var(--measure); box-sizing:border-box;
       font-family:var(--f-body); font-size:.97rem; line-height:1.7; color:var(--ink);
       background:var(--surface); border:1px solid var(--line-2); border-radius:3px;
       padding:10px 12px; -webkit-appearance:none;}
-  #v-quiet textarea{min-height:5.5rem; resize:vertical;}
-  #v-quiet #gathered{min-height:11rem; font-size:.9rem;}
-  #v-quiet input[type=text]:focus, #v-quiet textarea:focus{
+  #v-quiet textarea, #v-group textarea{min-height:5.5rem; resize:vertical;}
+  #v-group textarea.short{min-height:3.4rem;}
+  #v-quiet #gathered, #v-group #g-gathered{min-height:11rem; font-size:.9rem;}
+  #v-quiet input[type=text]:focus, #v-quiet textarea:focus,
+  #v-group input[type=text]:focus, #v-group textarea:focus{
       outline:none; border-color:var(--forest); box-shadow:0 0 0 3px var(--forest-soft);}
   .row3{display:grid; gap:7px; max-width:var(--measure);}
   .tools{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px;}
@@ -277,6 +280,44 @@
        background:var(--forest); color:#fff;}
   .btn.ghost{background:var(--surface); color:var(--ink-2); border-color:var(--line-2);}
   .btn.ghost:hover{border-color:var(--forest); color:var(--forest-2);}
+  /* ── 소그룹나눔 위젯 ─────────────────── */
+  .scale,.ringrow{display:grid; grid-template-columns:5.2rem 1fr; gap:10px; align-items:center;
+                  padding:8px 0; border-bottom:1px solid var(--line);}
+  .scale:last-of-type{border-bottom:none;}
+  .scale .axis{font-weight:700; font-size:.94rem;}
+  .opts{display:flex; gap:6px; flex-wrap:wrap;}
+  .opts label{position:relative; cursor:pointer;}
+  .opts input{position:absolute; opacity:0; width:0; height:0;}
+  .opts span{display:inline-flex; align-items:center; justify-content:center;
+             min-width:2.1rem; padding:6px 9px; font-family:var(--f-mono); font-size:.82rem;
+             color:var(--ink-2); background:var(--surface);
+             border:1px solid var(--line-2); border-radius:3px;}
+  .opts input:checked + span{background:var(--forest); border-color:var(--forest); color:#fff;}
+  .opts input:focus-visible + span{box-shadow:0 0 0 3px var(--forest-soft);}
+  .circle{padding:11px 0; border-bottom:1px solid var(--line);}
+  .circle:last-child{border-bottom:none;}
+  .circle .ring{font-weight:700; font-size:.98rem;}
+  .circle .cv{margin:3px 0 7px; font-size:.87rem; color:var(--ink-2); line-height:1.7;
+              max-width:var(--measure);}
+  .circle .cv .src{margin-left:4px;}
+  .pick{margin:0 0 4px;}
+  .flow.tabernacle>div{grid-template-columns:4.6rem 1fr;}
+  details.answer{margin:12px 0; border:1px solid var(--line-2); border-radius:3px;
+                 background:var(--surface);}
+  details.answer summary{cursor:pointer; padding:10px 13px; font-size:.9rem; font-weight:700;
+                         color:var(--forest-2); list-style:none;}
+  details.answer summary::-webkit-details-marker{display:none;}
+  details.answer summary::before{content:"▸ "; color:var(--ink-3);}
+  details.answer[open] summary::before{content:"▾ ";}
+  details.answer[open] summary{border-bottom:1px solid var(--line);}
+  details.answer > *:not(summary){padding:0 13px 12px;}
+  details.answer ol.q,details.answer ul.q{padding-left:2.1em; margin-top:10px;}
+  @media print{
+    details.answer{break-inside:avoid;}
+    details.answer summary::before{content:"";}
+    .opts span{background:none; color:var(--ink);}
+    .opts input:checked + span{background:none; color:var(--ink); border-width:2px;}
+  }
   .saved{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:40;
          font-family:var(--f-mono); font-size:.76rem; color:#fff; background:rgba(34,30,23,.9);
          padding:8px 15px; border-radius:99px; pointer-events:none;}
@@ -429,7 +470,7 @@
       <div class="axis lit"><div class="name">ONENESS</div><div class="kr">공동체 — 연합과 일치</div><p>서로 다른 삶들이 사랑의 네트워크로 연결되어 하나님 나라의 가족됨을 누리는 일.</p></div>
       <div class="axis"><div class="name">ON-SITE</div><div class="kr">선교 — 실천적 선교</div><p>발을 딛는 모든 삶의 현장에서 복음의 전원을 켜 어두운 세상을 밝히는 일.</p></div>
     </div>
-    <div class="note-box">이번 수련회는 다섯 축 가운데 <b>ON-FOCUS(예배)</b>와 <b>ONENESS(공동체)</b>를 정면으로 다룹니다 — 위에 표시된 두 칸입니다. 두 번의 예배와 두 번의 소그룹모임이 그 자리입니다.</div>
+    <div class="note-box">이번 수련회는 다섯 축 가운데 <b>ON-FOCUS(예배)</b>와 <b>ONENESS(공동체)</b>를 정면으로 다룹니다 — 위에 표시된 두 칸입니다. 두 번의 예배와 아침 나눔과 소그룹모임이 그 자리입니다.</div>
   </div>
 
   <div class="block">
@@ -532,7 +573,7 @@
     </div>
     <div class="slot" data-start="2026-10-17T15:00" data-end="2026-10-17T17:00">
       <div class="slot-head"><span class="time">15:00</span><h4>POS 모임 — ON-FOCUS</h4><span class="who">소그룹 · 비전 나눔</span></div>
-      <p><strong>하나님의 마음을 아는 사람</strong> · 로마서 12:1-2. 순서지는 <strong>소그룹나눔</strong> 메뉴에 있습니다.</p>
+      <p><strong>하나님의 마음을 아는 사람</strong> · 출애굽기 25:8-9 · 히브리서 10:19-22. 워크북 전체가 <strong>소그룹나눔</strong> 메뉴에 있습니다 — 쉼 10분을 포함해 100분.</p>
     </div>
     <div class="slot" data-start="2026-10-17T17:00" data-end="2026-10-17T18:00">
       <div class="slot-head"><span class="time">17:00</span><h4>저녁식사</h4></div>
@@ -739,149 +780,448 @@
 
 <!-- ═══════════ 5. 소그룹나눔 ═══════════ -->
 <section class="view" id="v-group" hidden>
-  <div class="view-head"><h2>소그룹나눔</h2><span class="tag">토 15:00 · ON-FOCUS 비전 나눔</span></div>
+  <div class="view-head"><h2>소그룹나눔</h2><span class="tag">토 15:00 · 100분</span></div>
 
-  <!-- ON-FOCUS 비전 나눔 -->
-  <div class="block" id="sheet-pos">
-    <h3>하나님의 마음을 아는 사람 — ON-FOCUS</h3>
-    <div class="sheet-meta">토 15:00–17:00 · 본문 로마서 12:1-2 · 소그룹 비전 나눔 · 조원용</div>
+  <div class="jump">
+    <a href="#g0">오늘의 흐름</a><a href="#g1">1 마음 열기</a><a href="#g2">2 함께 읽기 1</a><a href="#g3">3 함께 읽기 2</a><a href="#g4">4 나의 5-ON</a><a href="#g5">5 말씀 깊이 보기</a><a href="#g6">6 나눔 1</a><a href="#g7">7 나눔 2</a><a href="#g8">8 POS 약속</a><a href="#g9">9 고백과 기도</a><a href="#g10">부록</a>
+  </div>
 
-    <div class="oneline">
-      <span class="lab">오늘의 한 문장</span>
-      <p>예배는 내가 하나님께 해 드리는 일이 아니라 <strong>하나님이 우리를 위해 만드신 자리</strong>입니다. 그 자리에서 우리는 하나님의 마음을 알게 되고, 그 마음으로 삶 전체를 드립니다.</p>
+  <!-- ── 안내 ── -->
+  <div class="block" id="g0">
+    <p class="eyebrow">안내 · 오늘의 흐름</p>
+    <h3>두 시간이 이어지는 자리</h3>
+    <p>오늘 우리는 두 번 말씀 앞에 섭니다. 먼저 혼자, 그다음 함께입니다. 혼자 있는 시간에는 나의 예배를 정직하게 들여다보고, 함께 모인 자리에서는 그 예배의 길을 누가 열었는지 봅니다.</p>
+    <p>아침에 혼자 읽는 로마서 12장 1절은 “그러므로”로 시작합니다. 오후에 함께 읽을 히브리서 10장 19절도 “그러므로”로 시작합니다. 두 본문 모두 우리가 할 일을 말하기 전에 하나님이 하신 일을 먼저 놓습니다. 아침에 “드리라”는 말씀 앞에서 내 부족함을 보셨다면, 소그룹에서 그 앞에 무엇이 먼저 있었는지를 보게 됩니다.</p>
+
+    <h4 class="qh">2부 소그룹의 흐름</h4>
+    <div class="scroll"><table class="sched">
+      <thead><tr><th>시각</th><th>분</th><th>순서</th><th>무엇을 하나요</th></tr></thead>
+      <tbody>
+        <tr><td class="t">15:00</td><td class="t">7</td><td><b>마음 열기</b></td><td>아침에 나눈 것을 다시 꺼내 한 문장으로 말합니다.</td></tr>
+        <tr><td class="t">15:07</td><td class="t">12</td><td><b>함께 읽기 1</b></td><td>강의 대신 글을 읽으며 우리가 꿈꾸는 교회를 만납니다.</td></tr>
+        <tr><td class="t">15:19</td><td class="t">12</td><td><b>함께 읽기 2</b></td><td>강의 대신 글을 읽으며 다섯 걸음 5-ON을 살펴봅니다.</td></tr>
+        <tr><td class="t">15:31</td><td class="t">3</td><td><b>나의 5-ON 점검</b></td><td>조용히 혼자 다섯 영역에서 지금의 자리를 표시합니다.</td></tr>
+        <tr><td class="t">15:34</td><td class="t">10</td><td><b>쉼</b></td><td>자리를 비우되 멀리 가지 않습니다.</td></tr>
+        <tr><td class="t">15:44</td><td class="t">17</td><td><b>말씀 깊이 보기</b></td><td>오늘의 한 걸음, 예배를 성경에서 직접 들여다봅니다.</td></tr>
+        <tr><td class="t">16:01</td><td class="t">12</td><td><b>나눔 1</b></td><td>나의 예배가 지금 어디까지 넓어져 있는지 나눕니다.</td></tr>
+        <tr><td class="t">16:13</td><td class="t">10</td><td><b>나눔 2</b></td><td>예배에서 하나님이 요청하시는 한 걸음을 정합니다.</td></tr>
+        <tr><td class="t">16:23</td><td class="t">12</td><td><b>POS 약속</b></td><td>앞으로 3개월 동안 함께 드릴 예배 한 가지를 정합니다.</td></tr>
+        <tr><td class="t">16:35</td><td class="t">5</td><td><b>고백과 기도</b></td><td>우리의 고백을 함께 읽고 결단을 하나님께 올려 드립니다.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="mini-p">16:40에 마치면 17:00까지 20분이 남습니다. 앞에서 밀렸다면 그 여유를 쓰십시오. 시간을 채우려고 질문을 늘리지는 마십시오.</p>
+
+    <h4 class="qh">오늘의 한 걸음</h4>
+    <div class="fiveon">
+      <span>전도<small>ON-Boarding</small></span>
+      <span class="on">예배<small>ON-FOCUS</small></span>
+      <span>제자도<small>ON-TRACK</small></span>
+      <span>공동체<small>ONENESS</small></span>
+      <span>선교<small>ON-SITE</small></span>
+    </div>
+    <p class="mini-p">다섯 걸음을 모두 소개하지만, 90분에 다섯을 다 걸을 수는 없습니다. 오늘은 그중 <b>예배</b> 한 걸음에 머뭅니다. 나머지 네 걸음은 이어지는 모임에서 하나씩 걷습니다.</p>
+
+    <h4 class="qh">오늘 붙들 세 문장</h4>
+    <blockquote class="verse">
+      <p>교회는 건물이 아니라 예수님과 함께하는 사람들입니다.</p>
+      <p>예배는 내가 하나님께 해 드리는 일이 아니라 하나님이 나를 위해 만드신 자리입니다.</p>
+      <p>그래서 예배의 본질은 하나님의 마음을 알게 되는 것입니다.</p>
+    </blockquote>
+
+    <div class="note-box"><b>나눔의 약속</b><br>
+      짧게 말하고 오래 듣습니다. 정답을 찾기보다 서로의 경험을 존중합니다. 개인적인 상처나 갈등은 말하도록 강요하지 않으며, 나눈 이야기는 안전하게 지킵니다.
     </div>
 
-    <div class="sheet">
-      <div class="step" data-n="1"><h4>마음 열기</h4>
-        <p>주일예배를 마치고 먼 길을 돌아가는 길에 “오늘은 하나님을 만났다”고 느꼈던 날이 있었나요? 그날은 무엇이 달랐나요?</p>
-      </div>
-
-      <div class="step" data-n="2"><h4>우리 교회의 비전</h4>
-        <p>우리의 꿈은 교회가 커지는 것이 아니라 <strong>하나님 보시기에 좋은 세상</strong>입니다. 그 꿈을 향해 우리는 다섯 걸음을 걷습니다.</p>
-        <div class="fiveon">
-          <span>전도<small>ON-Boarding</small></span>
-          <span class="on">예배<small>ON-FOCUS</small></span>
-          <span>제자도<small>ON-TRACK</small></span>
-          <span>공동체<small>ONENESS</small></span>
-          <span>선교<small>ON-SITE</small></span>
-        </div>
-        <p>오늘 나눌 <strong>ON-FOCUS</strong>는 <strong>하나님의 마음을 아는 사람</strong>이 되는 걸음입니다.</p>
-        <blockquote class="verse"><p>세상에 흩어졌던 시선을 모아 오직 하나님께만 초점을 맞추는 시간, 삶의 우선순위를 거룩하게 재조정하는 ‘영적 조준’입니다.</p></blockquote>
-      </div>
-
-      <div class="step" data-n="3"><h4>말씀</h4>
-
-        <h5>첫째, 예배는 하나님이 우리를 위해 만드신 것입니다</h5>
-        <blockquote class="verse">
-          <p>“내가 그들 중에 거할 성소를 그들이 나를 위하여 짓되” <span class="src">출애굽기 25:8</span></p>
-          <p>“그러므로 형제들아 우리가 예수의 피를 힘입어 성소에 들어갈 담력을 얻었나니 그 길은 우리를 위하여 휘장 가운데로 열어 놓으신 새로운 살 길이요 휘장은 곧 그의 육체니라” <span class="src">히브리서 10:19-20</span></p>
-        </blockquote>
-        <p>우리는 흔히 예배를 <strong>우리가 하나님께 해 드리는 일</strong>로 생각합니다. 그러나 <strong>예배는 하나님이 우리를 위해 만드신 자리</strong>입니다.</p>
-
-        <p class="lead-in">하나님이 설계하셨습니다.</p>
-        <p>성막은 사람이 하나님을 찾아가려고 고안한 장치가 아닙니다. 하나님이 “내가 그들 중에 거하겠다”고 하시며 그 모양과 순서까지 정해 주신 자리입니다. 우리 제자훈련 교재는 이렇게 말합니다. <strong>“예배는 하나님께서 직접 설계하시고 설치하게 하신 집과 같다.”</strong> 예배의 장소와 날과 시간과 방법, 심지어 기구와 제사를 섬기는 사람의 옷까지 하나님이 세세하게 정해 주셨습니다. 예배의 시작은 사람의 열심이 아니라 <strong>하나님의 원하심</strong>입니다.</p>
-
-        <p class="lead-in">우리를 회복하시려고 만드셨습니다.</p>
-        <p>하나님은 왜 예배를 만드셨을까요? 교재는 이렇게 답합니다. <strong>“왜 제사가 필요한가? 그것은 우리의 회복이다.”</strong> 제물의 희생으로 죄가 해결되고, 다시 하나님의 자녀가 되어 하나님의 비전을 이루어 가는 사람이 되게 하는 것 — 그것이 예배의 목적이었습니다. 예배는 하나님이 받으시려고 만든 자리이기 전에, <strong>우리를 살리시려고 만드신 자리</strong>입니다.</p>
-
-        <p class="lead-in">길까지 하나님이 여셨습니다.</p>
-        <p>우리가 하나님께 나아가는 길은 우리의 노력으로 닦은 길이 아니라, 그리스도께서 자기 몸으로 열어 놓으신 길입니다(히브리서 10:19-20). 그리스도께서 “많은 사람의 죄를 담당하시려고 단번에 드리신 바”(히브리서 9:28) 되셨기 때문입니다. 성막문을 지나, 번제단에서 죄를 씻고, 물두멍에서 정결하게 되어, 성소로 들어가는 그 길 전체를 하나님이 우리를 위해 만드셨습니다. <strong>예배는 우리의 희생으로 여는 자리가 아니라, 하나님의 희생으로 열린 자리입니다.</strong></p>
-
-        <p class="lead-in">그 자리에서 우리는 하나님의 마음을 압니다.</p>
-        <blockquote class="verse">
-          <p>“나는 인애를 원하고 제사를 원하지 아니하며 번제보다 하나님을 아는 것을 원하노라” <span class="src">호세아 6:6</span></p>
-        </blockquote>
-        <p>호세아 시대의 이스라엘은 제사를 멈추지 않았지만 마음은 하나님을 떠나 있었습니다. 하나님이 원하신 것은 제물이 아니라 <strong>하나님을 아는 것</strong>이었습니다. 예수님도 예배할 장소를 묻는 사마리아 여인에게 장소를 고르지 않으시고 “영과 진리로” 예배할 때가 왔다고 하셨습니다(요한복음 4:23). 교재는 이것을 이렇게 풉니다. 예배는 <strong>“자녀가 아버지를 대면하는 것이며, 아버지가 자녀를 찾아오시는 거”</strong>입니다. 그래서 <strong>예배의 본질은 예식을 치르는 것이 아니라, 하나님의 마음을 알게 되는 것</strong>입니다.</p>
-
-        <ol class="q">
-          <li>예배가 “내가 하나님께 해 드리는 일”이 아니라 “하나님이 나를 위해 만드신 자리”라면, 나의 예배는 무엇이 달라질까요?</li>
-        </ol>
-
-        <h5>둘째, 그러므로 우리는 삶 전체로 응답합니다 — 로마서 12:1-2</h5>
-        <blockquote class="verse">
-          <p><sup>1</sup>그러므로 형제들아 내가 하나님의 모든 자비하심으로 너희를 권하노니 너희 몸을 하나님이 기뻐하시는 거룩한 산 제물로 드리라 이는 너희가 드릴 영적 예배니라</p>
-          <p><sup>2</sup>너희는 이 세대를 본받지 말고 오직 마음을 새롭게 함으로 변화를 받아 하나님의 선하시고 기뻐하시고 온전하신 뜻이 무엇인지 분별하도록 하라</p>
-        </blockquote>
-
-        <p class="lead-in">1) 관찰 — 본문에서 찾아봅시다</p>
-        <p>천천히 두 번 읽고, 본문의 낱말 그대로 빈칸을 채워 보세요.</p>
-        <div class="scroll"><table>
-          <thead><tr><th>절</th><th>본문에게 묻기</th><th>본문에서 찾은 답</th></tr></thead>
-          <tbody>
-            <tr><td class="t">1절</td><td>어떤 낱말로 시작하나요?</td><td><span class="fill"></span></td></tr>
-            <tr><td class="t">1절</td><td>바울은 무엇을 근거로 권하나요?</td><td>하나님의 모든 <span class="fill"></span> 으로</td></tr>
-            <tr><td class="t">1절</td><td>무엇을, 어떤 제물로 드리라고 하나요?</td><td>너희 <span class="fill" style="min-width:3.2rem;"></span> 을 … 거룩한 <span class="fill" style="min-width:3.2rem;"></span> 제물로</td></tr>
-            <tr><td class="t">1절</td><td>바울은 그것을 무엇이라고 부르나요?</td><td>너희가 드릴 <span class="fill"></span></td></tr>
-            <tr><td class="t">2절</td><td>하지 말아야 할 것은?</td><td>이 세대를 <span class="fill"></span> 말고</td></tr>
-            <tr><td class="t">2절</td><td>어떻게 변화를 받나요?</td><td>오직 마음을 <span class="fill"></span> 함으로</td></tr>
-            <tr><td class="t">2절</td><td>무엇을 위해서인가요?</td><td>하나님의 뜻이 무엇인지 <span class="fill"></span> 하도록</td></tr>
-            <tr><td class="t">2절</td><td>하나님의 뜻을 꾸미는 세 낱말은?</td><td><span class="fill" style="min-width:3.6rem;"></span> · <span class="fill" style="min-width:3.6rem;"></span> · <span class="fill" style="min-width:3.6rem;"></span></td></tr>
-          </tbody>
-        </table></div>
-        <div class="note-box"><b>더 찾아보기</b> 로마서 12장을 조금 더 읽어 보세요. “산 제물”로 사는 삶을 바울은 이어서 어떻게 설명하나요? (4–5절 · 9절 · 15절)</div>
-
-        <p class="lead-in">2) 이해 — 이 말씀이 뜻하는 것</p>
-        <ul class="q">
-          <li><strong>“그러므로”</strong> — 로마서 1–11장은 하나님이 하신 일(죄인을 의롭다 하시고, 자녀 삼으시고, 끝까지 붙드시는 은혜)이고, 12장부터는 그 은혜를 받은 사람의 삶입니다. 우리 제자훈련 교재는 이렇게 말합니다. “기독교 신앙은 내가 구원받고 끝나는 게 끝이 아니다. 오히려 이게 시작인 종교가 기독교다. … 기독교는 ‘그러므로’의 종교라 말하고 싶다.”</li>
-          <li><strong>“자비하심으로”</strong> — 예배는 내 열심에서 시작하지 않습니다. 받은 자비에 대한 <strong>응답</strong>입니다.</li>
-          <li><strong>“너희 몸을 … 산 제물로”</strong> — 구약은 정해진 때와 장소에서 짐승을 드렸지만, 이제 드릴 제물은 <strong>나 자신</strong>, 그것도 <strong>살아 있는</strong> 제물입니다. 예배는 예배당의 한 시간이 아니라 <strong>삶 전체</strong>가 됩니다. 교재는 이것을 이렇게 말합니다. <strong>“누군가의 희생으로 다른 누군가가 산다.”</strong> 예수님의 희생으로 우리가 살았으니, 이제 우리의 삶이 다른 사람을 살리는 예배가 됩니다.</li>
-          <li><strong>“이 세대를 본받지 말고 … 분별하도록”</strong> — 세상이 정한 기준(무엇이 성공이고 무엇이 먼저인지)에 나를 맞추지 않고, 마음이 새로워져 <strong>하나님의 기준으로</strong> 선택합니다. 우리 비전이 말하는 “삶의 우선순위를 거룩하게 재조정하는 것”이 바로 이것입니다.</li>
-        </ul>
-
-        <p class="lead-in">3) 적용 — 내 삶에 비추어 봅시다</p>
-        <ol class="q" start="2">
-          <li><strong>1절</strong> — 나는 무엇 때문에 예배하나요? “받은 자비 때문에”인가요, “해야 하니까”인가요? 최근 하나님의 자비를 느꼈던 일 하나를 나눠 주세요.</li>
-          <li><strong>2절</strong> — 요즘 나를 “이 세대”에 맞추게 만드는 기준은 무엇인가요? 이번 주 하나님의 기준으로 분별해야 할 선택이 있나요?</li>
-          <li><strong>흩어져 사는 우리에게</strong> — 교회에 모이지 않는 엿새 동안, 나의 “몸”으로 예배를 드릴 수 있는 자리는 어디인가요?</li>
-        </ol>
-
-        <blockquote class="verse">
-          <p>“지난 주의 삶이 예배 준비입니다. 이번 예배가 다음 주의 삶을 결정합니다.”<br>
-          자주 모이지 못하는 우리에게 주일 한 번의 예배와 흩어진 엿새는 따로 떨어진 시간이 아닙니다. <strong>엿새의 삶이 주일을 준비하고, 주일의 예배가 엿새를 이끄는 하나의 원</strong>입니다.</p>
-        </blockquote>
-
-        <div class="note-box"><b>한 줄로 묶으면</b> — 하나님이 우리를 위해 <b>만드신</b> 자리에서 → 하나님의 <b>마음을 알고</b> → 그러므로 <b>삶 전체로</b> 응답하며 날마다 <b>하나님의 기준으로</b> 분별합니다.</div>
-      </div>
-
-      <div class="step" data-n="4"><h4>삶에 옮기기</h4>
-        <p>예배는 이렇게 넓어집니다. <strong>지금 나에게 있는 것에 ○, 다음에 해 보고 싶은 것에 ☆</strong> 를 표시해 보세요.</p>
-        <div class="picks">
-          <div><b>홀로</b><small>말씀과 기도</small></div>
-          <div><b>가족과</b><small>함께 예배</small></div>
-          <div><b>교회와 함께</b><small>예배</small></div>
-          <div><b>남을 위해</b><small>중보기도</small></div>
-          <div><b>삶으로</b><small>하나님의 기준을 따라 선택</small></div>
-        </div>
-        <ol class="q" start="5">
-          <li>나의 말씀과 기도의 생활은 이어지고 있나요? 무엇이 이어지게 돕고, 무엇이 끊기게 하나요?</li>
-          <li>우리 교회의 함께하는 자리 — 주일예배 · 오후 찬양예배(두 달에 한 번) · 수요 온라인 기도모임 — 가운데 나에게 있는 것과 어려운 것은 무엇인가요?</li>
-        </ol>
-      </div>
-
-      <div class="step" data-n="5"><h4>우리 교회 함께 생각하기</h4>
-        <p>우리는 교회와 서로에게서 멀리 떨어져 살아 자주 모이기 어렵습니다. 그러나 교회는 예배당 안에만 있지 않습니다.</p>
-        <blockquote class="verse"><p>“두세 사람이 내 이름으로 모인 곳에는 나도 그들 중에 있느니라” <span class="src">마태복음 18:20</span></p></blockquote>
-        <ol class="q" start="7">
-          <li>자주 모이기 어려운 우리가 함께 예배하고 기도할 수 있는 방법은 무엇일까요? 작고 엉뚱한 생각도 좋습니다.</li>
-          <li>이렇게 1년을 걷는다면, 나와 우리 교회는 어떤 모습이 되어 있을까요?</li>
-        </ol>
-        <div class="note-box">
-          <b>나의 제안</b> <span class="fill" style="min-width:14rem;"></span><br>
-          ☐ 해 보고 싶어요　☐ 함께하고 싶어요　☐ 제가 시작해 볼게요
-        </div>
-      </div>
-
-      <div class="step" data-n="6"><h4>나의 한 걸음과 기도</h4>
-        <div class="note-box">앞으로 <b>4주 동안</b> 나는 <span class="fill" style="min-width:13rem;"></span> 을 하겠습니다.</div>
-        <div class="note-box"><b>기도 제목</b><br>
-          말씀과 기도의 생활이 끊기지 않도록<br>
-          흩어져 사는 우리가 흩어진 자리에서도 함께 예배하는 교회가 되도록<br>
-          예배 가운데 하나님의 마음을 알게 되도록
-        </div>
-        <p class="lead-in">마무리 기도</p>
-        <blockquote class="verse"><p>우리를 위해 예배의 자리를 만들어 주신 하나님, 흩어진 우리의 시선을 다시 주님께 모으게 하소서. 예배 가운데 주님의 마음을 알게 하시고, 멀리 흩어져 사는 자리에서도 삶으로 예배하게 하소서. 예수님의 이름으로 기도합니다. 아멘.</p></blockquote>
-      </div>
+    <div class="leader"><span class="lab">인도자께</span>
+      이 워크북은 5-ON을 모두 소개하되 예배 하나를 깊이 다룹니다. 나머지 네 걸음을 설명하려는 유혹을 누르십시오.<br>
+      읽기 글의 분량은 그대로입니다. 줄일 것은 분량이 아니라 속도입니다.<br>
+      시간이 밀리면 나눔의 질문 수를 줄이시고, 「말씀 깊이 보기」의 찾아보기는 줄이지 마십시오.<br>
+      5-ON 점검에서 예배가 아닌 영역이 걸린 사람도 있습니다. 그 사람에게는 “오늘은 예배로 연습하고, 같은 방식으로 그 영역을 집에서 해 보시라” 하고 안내하십시오.
     </div>
+  </div>
+
+  <!-- ── 1 마음 열기 ── -->
+  <div class="block" id="g1">
+    <p class="eyebrow">PART 1 · 마음 열기 · 7분</p>
+    <h3>아침에 들고 온 것</h3>
+    <p class="lede">오늘 아침 우리는 혼자 로마서 12장 앞에 앉았고, 서로의 이야기를 들었습니다. 그 뒤로 몇 시간이 지났습니다. 아직 남아 있는 것이 있습니까. 한 사람당 1분, 한 문장만 말합니다.</p>
+    <label class="fld" for="g1a">아침 이후 아직 내 안에 남아 있는 한 문장<span class="mini">아침 묵상에 함께하지 못하셨다면, 요즘 나에게 예배가 어떤 자리인지 한 문장으로 말해 주세요.</span></label>
+    <textarea id="g1a" data-label="마음 열기 — 남아 있는 한 문장"></textarea>
+
+    <h4 class="qh">함께 읽는 말씀</h4>
+    <blockquote class="verse">
+      <p>“내가 그들 중에 거할 성소를 그들이 나를 위하여 짓되” <span class="src">출애굽기 25:8</span></p>
+      <p>“나는 인애를 원하고 제사를 원하지 아니하며 번제보다 하나님을 아는 것을 원하노라” <span class="src">호세아 6:6</span></p>
+    </blockquote>
+    <label class="fld" for="g1b">말씀과 마음 열기에서 떠오른 한 문장</label>
+    <textarea id="g1b" data-label="마음 열기 — 말씀에서 떠오른 한 문장"></textarea>
+
+    <div class="leader"><span class="lab">인도자께</span>
+      한 사람당 1분을 넘기지 않게 합니다. 여기서 설명이 붙기 시작하면 7분이 20분이 됩니다. 아침에 이미 나누었으니 되풀이할 필요가 없다고 미리 말해 주십시오.<br>
+      아침보다 가라앉은 말이 나올 수 있습니다. 위로하거나 수습하려 하지 마시고 그대로 받으십시오. 오후 본문은 바로 그 자리에 복음을 놓습니다. 아침과 지금 반복해서 나오는 말을 적어 두셨다가 「말씀 깊이 보기」 생각해 보기 2번에서 불러 주면 좋습니다.<br>
+      레크리에이션과 쉼의 시간을 지나온 뒤라 분위기가 들떠 있을 수 있습니다. 서두르지 말고 한 번 가라앉히고 시작하십시오.
+    </div>
+  </div>
+
+  <!-- ── 2 함께 읽기 1 ── -->
+  <div class="block" id="g2">
+    <p class="eyebrow">함께 읽기 1 · 강의를 대신하는 글 · 12분</p>
+    <h3>교회는 건물이 아니라 사람입니다</h3>
+    <div class="note-box">한 사람씩 한 단락을 소리 내어 읽거나, 각자 조용히 읽은 뒤 밑줄 친 문장을 나눕니다.</div>
+
+    <p>우리 교회는 작은 공간에서 시작했습니다. 그곳에서 거리로 나가 복음을 전했고, 매달 이웃을 초대해 함께 예배했습니다. 여러 자리를 옮겨 다닌 뒤 처음으로 우리의 공간을 가지게 되었습니다. 감사한 일입니다. 그러나 이런 때일수록 먼저 붙들 문장이 있습니다. <b>교회는 건물이 아니라 사람입니다.</b> 그리고 그 사람들이 예수님과 함께하는 것이 교회입니다.</p>
+
+    <p>우리의 꿈은 교회 자체가 커지는 것이 아닙니다. 사람이 늘고 건물이 생기고 사역이 많아지는 것은 결과일 수 있지만 목적은 아닙니다. 우리의 꿈은 <b>하나님 보시기에 좋은 세상</b>을 만들어 가는 것입니다. 창세기 1장에서 하나님이 좋다 하신 것은 빛 하나가 아니라 빛 아래 펼쳐진 세상 전체였습니다. 사람이 하나님의 뜻을 따라 그 세상을 가꾸도록 맡기신 뒤 하나님은 보시기에 심히 좋았다고 말씀하셨습니다.</p>
+
+    <p>그래서 교회는 교회 자신을 위해 있지 않습니다. 우리는 교회를 키우려고 모이는 것이 아니라 하나님 보시기에 좋은 세상을 위해 부름받아 모이고, 보냄받아 흩어집니다. 빛은 자기를 드러내려고 있는 것이 아닙니다. 빛이 비출 때 그 아래 있는 세상이 환하게 드러납니다. 교회가 빛이라면 교회가 빛나 보이는 것이 목적이 아니라, <b>교회를 통해 세상이 하나님의 뜻에 가까워지는 것</b>이 목적입니다.</p>
+
+    <p>그 꿈을 품은 교회는 예수님과 함께하는 사람들입니다. 바울은 분열된 고린도 교회에 너희가 하나님의 성전이라고 말했습니다. 성전은 돌로 지은 건물이 아니라 하나님의 영이 거하시는 사람들의 모임입니다. 에베소서는 우리를 이미 완공된 집이 아니라 그리스도 예수 안에서 <b>함께 지어져 가는 집</b>이라고 부릅니다. 교회는 완성된 사람들이 모인 곳이 아니라 서로 다른 사람들이 예수님 안에서 서로를 맞추며 세워져 가는 공동체입니다.</p>
+
+    <p>그러므로 우리는 주일에 예배당 안에 있을 때만 교회가 아닙니다. 예수님과 함께하는 사람이 가정에 있으면 그 가정에 교회가 있고, 일터에 있으면 그 일터에 교회가 있으며, POS로 모이면 그 자리에 교회가 있습니다. 우리 교회가 그리는 성숙한 그리스도인은 교회에 다니는 사람을 넘어 <b>가는 곳마다 교회가 되는 사람</b>입니다.</p>
+
+    <label class="fld" for="g2a">읽으며 마음에 남은 문장</label>
+    <textarea id="g2a" data-label="함께 읽기 1 — 마음에 남은 문장"></textarea>
+  </div>
+
+  <!-- ── 3 함께 읽기 2 ── -->
+  <div class="block" id="g3">
+    <p class="eyebrow">함께 읽기 2 · 강의를 대신하는 글 · 12분</p>
+    <h3>다섯 걸음은 한 사람의 길입니다</h3>
+    <p>하나님 보시기에 좋은 세상이라는 꿈을 이루기 위해 우리 교회는 전도, 예배, 제자도, 공동체, 선교라는 다섯 걸음을 붙듭니다. 우리는 이것을 <b>5-ON</b>이라고 부릅니다. 그러나 5-ON은 다섯 개의 부서나 프로그램이 아닙니다. 하나님을 소개하는 사람, 하나님의 마음을 아는 사람, 누군가를 이끄는 사람, 친구와 가족과 종이 되는 사람, 자기 세상을 바꾸는 사람으로 자라 가는 <b>하나의 신앙의 길</b>입니다.</p>
+
+    <h4 class="qh">ON-Boarding · 전도</h4>
+    <p>전도는 교회를 소개하는 일이 아니라 하나님을 소개하는 일입니다. 우리 곁에는 오래 마음에 두고 기도해 온 품은 사람과, 하나님이 뜻밖에 내 곁에 보내신 사람이 있습니다. 우리는 먼저 다가가고, 환대하고, 초대하고, 곁에 있습니다. 우리가 소개하면 그들을 직접 만나 주시는 분은 예수님이십니다.</p>
+
+    <h4 class="qh">ON-FOCUS · 예배</h4>
+    <p>예배는 하나님의 마음을 알아 가는 일입니다. 우리는 흔히 예배를 우리가 하나님께 해 드리는 일로 생각합니다. 그러나 예배는 하나님이 우리를 위해 만드신 자리입니다. 성막도 하나님이 먼저 “내가 그들 중에 거하겠다” 하시며 그 모양과 순서까지 정해 주신 자리였고, 그 길은 그리스도께서 자기 몸으로 열어 놓으신 길로 완성되었습니다. 그래서 예배의 본질은 예식을 치르는 것이 아니라 하나님의 마음을 아는 것이며, 그 예배는 주일 한 시간에서 끝나지 않고 홀로, 가족과, 교회와, 남을 위한 기도와 삶 전체로 넓어집니다.</p>
+
+    <h4 class="qh">ON-TRACK · 제자도</h4>
+    <p>제자도는 누군가를 이끌 준비가 된 사람으로 자라는 일입니다. 성숙은 얼마나 오래 교회에 다녔는가보다 받은 것을 다른 사람에게 이어 줄 수 있는가로 드러납니다. 리더는 모든 것을 다 이룬 사람이 아니라 한 사람을 위해 기도하고, 함께 말씀을 따르며, 다음 사람을 세울 준비가 된 사람입니다.</p>
+
+    <h4 class="qh">ONENESS · 공동체</h4>
+    <p>공동체는 서로의 친구와 가족과 종이 되는 일입니다. 친구는 기쁨을 진심으로 함께 기뻐하고, 가족은 슬픔 곁에 오래 머물며, 종은 서로의 짐을 기꺼이 함께 집니다. POS는 부딪혀서 헤어지는 곳이 아니라 서로를 맞추어 가는 곳이며, 이런 관계는 함께 먹는 식탁과 작은 섬김 속에서 자랍니다.</p>
+
+    <h4 class="qh">ON-SITE · 선교</h4>
+    <p>선교는 내가 발 딛고 선 세상에서 복음의 전원을 켜는 일입니다. 선교의 원은 나의 세상, 우리 동네, 땅끝으로 넓어집니다. 가정과 직장과 관계에서 빛으로 살고, 도움이 필요한 이웃에게 내가 먼저 이웃이 되어 주며, 모든 민족을 향한 하나님의 마음에 함께 참여합니다.</p>
+
+    <p>다섯 걸음은 따로 떨어져 있지 않습니다. 전도로 사람이 들어오고, 예배와 제자도로 자라며, 공동체 안에서 연결되고, 세상으로 보냄받습니다. 우리는 힘을 다해 한 걸음씩 걷고, 우리 안에서 시작하신 하나님이 그 길을 이루실 것을 믿습니다.</p>
+
+    <label class="fld" for="g3a">다섯 걸음 중 지금 내 마음이 가장 오래 머문 걸음</label>
+    <textarea id="g3a" class="short" data-label="함께 읽기 2 — 가장 오래 머문 걸음"></textarea>
+  </div>
+
+  <!-- ── 4 나의 5-ON 점검 ── -->
+  <div class="block" id="g4">
+    <p class="eyebrow">PART 2 · 다섯 걸음을 발견하다</p>
+    <h3>교회를 세우는 다섯 걸음 5-ON</h3>
+    <div class="scroll"><table>
+      <thead><tr><th>5-ON</th><th>되어 갈 모습</th><th>도착하는 곳</th></tr></thead>
+      <tbody>
+        <tr><td class="t">ON-Boarding<br><small>전도</small></td><td>하나님을 소개하는 사람</td><td>그 사람이 하나님을 만납니다.</td></tr>
+        <tr><td class="t">ON-FOCUS<br><small>예배</small></td><td>하나님의 마음을 아는 사람</td><td>우리가 하나님의 마음을 알게 됩니다.</td></tr>
+        <tr><td class="t">ON-TRACK<br><small>제자도</small></td><td>누군가를 이끄는 사람</td><td>우리가 리더가 됩니다.</td></tr>
+        <tr><td class="t">ONENESS<br><small>공동체</small></td><td>친구와 가족과 종이 되는 사람</td><td>우리가 하나님 나라의 가족이 됩니다.</td></tr>
+        <tr><td class="t">ON-SITE<br><small>선교</small></td><td>자기 세상을 바꾸는 사람</td><td>세상이 하나님 보시기에 좋아집니다.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="qh">나의 5-ON 점검 · 3분 · 혼자 조용히</h4>
+    <p class="mini-p">현재 모습을 1에서 5까지 표시하세요. 1은 시작이 필요한 상태, 5는 꾸준히 살아 내고 있는 상태입니다. 점수는 비교가 아니라 다음 걸음을 찾기 위한 표지입니다.</p>
+    <div class="scale" data-axis="전도"></div>
+    <div class="scale" data-axis="예배"></div>
+    <div class="scale" data-axis="제자도"></div>
+    <div class="scale" data-axis="공동체"></div>
+    <div class="scale" data-axis="선교"></div>
+
+    <label class="fld" for="g4z">지금 하나님께서 특별히 비추시는 영역은</label>
+    <textarea id="g4z" class="short" data-label="5-ON 점검 — 하나님이 비추시는 영역"></textarea>
+
+    <div class="aside"><span class="lab">여기서부터</span>
+      <p>오늘은 <b>예배 한 걸음</b>에 머뭅니다. 다섯을 다 걸으려 하면 하나도 걷지 못합니다. 오늘 남은 시간은 전부 예배 하나에 씁니다. 다른 네 걸음에 마음이 가셨다면 위의 빈칸에 적어 두십시오. 오늘 예배로 연습한 방식 그대로 그 걸음도 걸을 수 있습니다.</p></div>
+
+    <div class="leader"><span class="lab">인도자께</span>
+      이 3분은 말하지 않는 시간입니다. 음악을 틀거나 조용히 기다려 주십시오. 점수는 평가 자료가 아닙니다. 낮은 점수를 설명하게 하지 마십시오. 그리고 여기서 흐름을 끊고 “오늘은 예배입니다” 하고 분명히 선언해 주십시오. 그래야 뒤의 나눔이 흩어지지 않습니다.
+    </div>
+
+    <div class="note-box"><b>쉼 10분</b> · 15:34–15:44 — 자리를 비우되 멀리 가지 않습니다.</div>
+  </div>
+
+  <!-- ── 5 말씀 깊이 보기 ── -->
+  <div class="block" id="g5">
+    <p class="eyebrow">PART 3 · 말씀 깊이 보기 · ON-FOCUS 예배 · 17분</p>
+    <h3>하나님이 열어 놓으신 자리</h3>
+    <p class="lede">아침에 우리는 “너희 몸을 산 제물로 드리라”는 말씀 앞에 혼자 앉았습니다. 그 앞에서 드러난 내 모습을 보셨을 것입니다. 그런데 그 명령 앞에는 “하나님의 모든 자비하심으로”가 먼저 놓여 있었습니다. 오늘 두 본문은 그 자비하심이 무엇이었는지를 보여 줍니다. 성막을 짓자고 먼저 말씀하신 분도 하나님이고, 그 길을 끝까지 열어 놓으신 분도 그리스도이십니다. <b>각자 성경을 펴 주세요.</b></p>
+
+    <blockquote class="verse">
+      <p><sup>8</sup>내가 그들 중에 거할 성소를 그들이 나를 위하여 짓되</p>
+      <p><sup>9</sup>무릇 내가 네게 보이는 모양대로 장막을 짓고 기구들도 그 모양을 따라 지을지니라</p>
+      <p class="src">출애굽기 25:8-9</p>
+    </blockquote>
+    <blockquote class="verse">
+      <p><sup>19</sup>그러므로 형제들아 우리가 예수의 피를 힘입어 성소에 들어갈 담력을 얻었나니</p>
+      <p><sup>20</sup>그 길은 우리를 위하여 휘장 가운데로 열어 놓으신 새로운 살 길이요 휘장은 곧 그의 육체니라</p>
+      <p><sup>21</sup>또 하나님의 집 다스리는 큰 제사장이 계시매</p>
+      <p><sup>22</sup>우리가 마음에 뿌림을 받아 악한 양심으로부터 벗어나고 몸은 맑은 물로 씻음을 받았으니 참 마음과 온전한 믿음으로 하나님께 나아가자</p>
+      <p class="src">히브리서 10:19-22</p>
+    </blockquote>
+
+    <h4 class="qh">이 말씀이 놓인 자리 · 3분</h4>
+    <p>출애굽기 25장은 이스라엘이 애굽에서 나온 지 얼마 되지 않은 광야의 이야기입니다. 백성은 아직 하나님과 어떻게 함께 살아야 할지 모르는 사람들이었습니다. 그때 하나님이 먼저 말씀하십니다. 내가 너희 가운데 거하겠다고, 그러니 그 거할 자리를 지으라고. 성막은 사람이 하나님을 찾아가려고 고안한 장치가 아니라 <b>하나님이 모양과 순서까지 정해 주신 자리</b>였습니다.</p>
+    <p>히브리서는 그 성막의 길이 예수님 안에서 완성되었다고 말합니다. 성막의 가장 깊은 곳, 지성소 앞에는 휘장이 가로막고 있었습니다. 일 년에 한 번 대제사장만 피를 들고 들어갈 수 있었습니다. 그런데 예수님이 십자가에서 숨을 거두시던 순간, “성소 휘장이 위로부터 아래까지 찢어져 둘이 되고”(마태복음 27:51) 말았습니다. <b>아래에서 위로가 아니라 위에서 아래로</b> 찢어졌습니다. 사람이 뚫은 길이 아니라는 뜻입니다.</p>
+    <p>그래서 히브리서는 그 길을 “새로운 살 길”이라고 부르고, 휘장이 곧 그리스도의 육체라고 말합니다. 우리가 하나님께 나아가는 길은 우리의 노력으로 닦은 길이 아니라 그리스도께서 자기 몸으로 열어 놓으신 길입니다. <b>예배는 우리의 희생으로 여는 자리가 아니라 하나님의 희생으로 열린 자리입니다.</b></p>
+
+    <div class="leader"><span class="lab">인도자께</span>
+      이 17분의 주인공은 인도자가 아니라 본문입니다. 성막 구조를 설명하는 강의가 되지 않게 하십시오.<br>
+      「놓인 자리」는 인도자나 한 사람이 소리 내어 읽어 주면 됩니다. 덧붙이지 마십시오.<br>
+      휘장이 “위로부터 아래까지” 찢어졌다는 대목에서 한 번 멈추어 주십시오. 오늘 본문의 핵심입니다.
+    </div>
+
+    <h4 class="qh">찾아보기 · 6분</h4>
+    <p class="mini-p">생각이 아니라 본문에 적혀 있는 것을 찾습니다. 조원들이 함께 찾아 빈칸을 채웁니다.</p>
+    <label class="fld" for="g5a">1. 출애굽기 25:8 — 성소를 짓자고 먼저 말한 쪽은 누구이며, 무엇을 위해 짓습니까</label>
+    <textarea id="g5a" class="short" data-label="찾아보기 1 — 먼저 말한 쪽 / 무엇을 위해"></textarea>
+    <label class="fld" for="g5b">2. 출애굽기 25:9 — 장막의 모양은 누가 정했습니까</label>
+    <textarea id="g5b" class="short" data-label="찾아보기 2 — 장막의 모양"></textarea>
+    <label class="fld" for="g5c">3. 히브리서 10:19 — 우리가 성소에 들어갈 담력은 무엇을 힘입어 얻었습니까</label>
+    <textarea id="g5c" class="short" data-label="찾아보기 3 — 담력의 근거"></textarea>
+    <label class="fld" for="g5d">4. 히브리서 10:20 — 그 길을 무엇이라 부르며, 휘장은 곧 무엇이라고 합니까</label>
+    <textarea id="g5d" class="short" data-label="찾아보기 4 — 그 길 / 휘장"></textarea>
+    <label class="fld" for="g5e">5. 히브리서 10:22 — 어떤 마음으로 하나님께 나아가자고 합니까</label>
+    <textarea id="g5e" class="short" data-label="찾아보기 5 — 나아가는 마음"></textarea>
+
+    <details class="answer">
+      <summary>답의 방향 — 조원들이 먼저 찾은 뒤에 펴십시오</summary>
+      <ol class="q">
+        <li><b>하나님이 먼저 말씀하셨습니다.</b> 목적도 하나님이 정하셨습니다 — “내가 그들 중에 거할”. 예배의 시작은 사람의 열심이 아니라 하나님의 원하심입니다.</li>
+        <li><b>하나님이 보이신 모양대로</b>입니다. 사람이 고안한 방식이 아닙니다.</li>
+        <li><b>예수의 피를 힘입어</b>서입니다. 내 정성이나 준비가 아닙니다.</li>
+        <li><b>새로운 살 길</b>입니다. 휘장은 곧 그의 육체입니다. 길을 내기 위해 찢어진 것이 그리스도의 몸입니다.</li>
+        <li><b>참 마음과 온전한 믿음으로</b>입니다. 길은 이미 열려 있고, 우리는 준비된 마음으로 그 길을 걷습니다.</li>
+      </ol>
+    </details>
+
+    <h4 class="qh">생각해 보기 · 8분</h4>
+    <p class="mini-p">세 질문 중 마음이 머무는 것부터.</p>
+    <label class="fld" for="g5f">1. 예배를 “내가 하나님께 해 드리는 일”로 여길 때와 “하나님이 나를 위해 열어 놓으신 자리”로 여길 때, 예배에 나아가는 마음은 어떻게 달라집니까</label>
+    <textarea id="g5f" data-label="생각해 보기 1"></textarea>
+    <label class="fld" for="g5g">2. 휘장이 그리스도의 몸이라면, 내가 예배에 나아가기 위해 치러야 할 값은 누가 치렀습니까<span class="mini">그런데 22절은 왜 “참 마음과 온전한 믿음으로” 나아가자고 할까요. 이미 열려 있다는 것과 준비하고 나아간다는 것은 어떻게 함께 갑니까</span></label>
+    <textarea id="g5g" data-label="생각해 보기 2 (오늘의 핵심)"></textarea>
+    <label class="fld" for="g5h">3. 아래는 성막을 지나 하나님께 나아가는 순서입니다. 지금 나의 예배는 어디쯤에서 자주 멈춰 섭니까</label>
+    <div class="flow tabernacle">
+      <div><span class="m">성막문</span><span class="d"><span>나는 누구인가</span></span></div>
+      <div><span class="m">번제단</span><span class="d"><span>죄의 해결</span></span></div>
+      <div><span class="m">물두멍</span><span class="d"><span>성령</span></span></div>
+      <div><span class="m">성소</span><span class="d"><span>말씀 · 기도 · 예배</span></span></div>
+    </div>
+    <textarea id="g5h" class="short" data-label="생각해 보기 3 — 자주 멈춰 서는 자리"></textarea>
+
+    <label class="fld" for="g5i">본문에서 발견한 한 문장</label>
+    <textarea id="g5i" class="short" data-label="말씀 깊이 보기 — 발견한 한 문장"></textarea>
+
+    <div class="leader"><span class="lab">인도자께</span>
+      빈칸은 조별로 함께 채웁니다. “몇 절에 있을까요” 하고 함께 찾으십시오.<br>
+      <b>2번이 오늘의 핵심입니다.</b> 밀리면 1번과 3번을 건너뛰고 2번만 하십시오. 아침에 무거운 고백을 한 분들이 여기서 숨을 쉽니다.<br>
+      2번에서 “그럼 준비는 필요 없나요”라는 질문이 나오면 좋은 신호입니다. 약속과 준비는 부딪히지 않습니다.
+    </div>
+  </div>
+
+  <!-- ── 6 나눔 1 ── -->
+  <div class="block" id="g6">
+    <p class="eyebrow">PART 4 · 나의 예배를 보다 · 12분</p>
+    <h3>나눔 1 — 넓어지는 예배의 원</h3>
+    <p class="lede">길이 열려 있다면, 그 길은 주일 한 시간에서 끝나지 않습니다. 골방에서 시작한 예배가 가정으로, 교회로, 남을 위한 기도로, 그리고 삶 전체로 넓어집니다. 다섯 원 각각에 지금의 나를 표시해 보세요.</p>
+
+    <div class="circles">
+      <div class="circle" data-ring="홀로" data-verse="네 골방에 들어가 문을 닫고 은밀한 중에 계신 네 아버지께 기도하라" data-ref="마태복음 6:6"></div>
+      <div class="circle" data-ring="가족과" data-verse="집에 앉아 있을 때에든지 길을 갈 때에든지" data-ref="신명기 6:7"></div>
+      <div class="circle" data-ring="교회와" data-verse="날마다 마음을 같이하여 성전에 모이기를 힘쓰고 집에서 떡을 떼며" data-ref="사도행전 2:46"></div>
+      <div class="circle" data-ring="남을 위해" data-verse="모든 사람을 위하여 간구와 기도와 도고와 감사를 하되" data-ref="디모데전서 2:1"></div>
+      <div class="circle" data-ring="삶으로" data-verse="너희 몸을 하나님이 기뻐하시는 거룩한 산 제물로 드리라" data-ref="로마서 12:1"></div>
+    </div>
+
+    <h4 class="qh">함께 나눌 질문</h4>
+    <label class="fld" for="g6a">1. 다섯 원 중 지금 가장 살아 있는 원은 어디이고, 가장 비어 있는 원은 어디입니까</label>
+    <textarea id="g6a" class="short" data-label="나눔 1 — 살아 있는 원 / 비어 있는 원"></textarea>
+    <label class="fld" for="g6b">2. 나의 말씀과 기도의 생활은 끊기지 않고 이어지고 있습니까</label>
+    <textarea id="g6b" class="short" data-label="나눔 1 — 말씀과 기도의 생활"></textarea>
+    <label class="fld" for="g6c">3. 나에게는 다른 사람과 함께 예배하는 시간이 있습니까</label>
+    <textarea id="g6c" class="short" data-label="나눔 1 — 함께 예배하는 시간"></textarea>
+
+    <div class="leader"><span class="lab">인도자께</span>
+      표를 채우는 데 3분, 나누는 데 9분으로 잡으십시오. ×가 많다고 부끄러워하지 않게, 인도자가 먼저 자신의 ×를 말해 주십시오. “남을 위해”의 원은 대개 비어 있습니다. 그 자리에서 책의 한 문장을 읽어 주셔도 좋습니다 — 하나님은 처음부터 사람을 하나님과 세상 사이에 세우셨고, 사람은 처음부터 중보하는 존재로 지어졌습니다.
+    </div>
+  </div>
+
+  <!-- ── 7 나눔 2 ── -->
+  <div class="block" id="g7">
+    <p class="eyebrow">PART 4 · 한 걸음을 정하다 · 10분</p>
+    <h3>나눔 2 — 나의 예배 한 걸음</h3>
+    <p class="lede">다섯 원을 한꺼번에 채우려 하지 않습니다. 가장 비어 있는 원 하나를 골라, 이번 주부터 실제로 할 수 있는 한 걸음을 적습니다. <b>작을수록 좋습니다.</b> 아침 묵상에서 적은 “하나님이 안 계신 것처럼 지나간 자리”가 있다면 거기서부터 고르셔도 좋습니다.</p>
+
+    <p class="fld">내가 고른 원</p>
+    <div class="pick" data-name="g7ring" data-opts="홀로,가족과,교회와,남을 위해,삶으로"></div>
+
+    <label class="fld" for="g7a">나의 한 걸음<span class="mini">언제 · 얼마나 자주까지 적어야 다음 주에 지킬 수 있습니다</span></label>
+    <textarea id="g7a" data-label="나눔 2 — 나의 한 걸음"></textarea>
+
+    <details class="answer">
+      <summary>이렇게 적으면 좋습니다</summary>
+      <ul class="q">
+        <li><b>홀로</b> — 아침에 일어나 휴대전화를 켜기 전에 말씀 한 장을 읽겠습니다. 주 5일.</li>
+        <li><b>가족과</b> — 주일 저녁 식사 뒤 10분, 아이와 한 구절을 읽고 한 문장씩 기도하겠습니다.</li>
+        <li><b>교회와</b> — 주일 예배 15분 전에 도착해 자리에 앉아 기다리겠습니다.</li>
+        <li><b>남을 위해</b> — POS 식구 다섯 명의 이름을 적어 두고 월요일마다 한 사람씩 기도하겠습니다.</li>
+        <li><b>삶으로</b> — 일터에서 결정 하나를 앞두고 “하나님은 어느 쪽을 기뻐하실까” 묻고 정하겠습니다.</li>
+      </ul>
+    </details>
+
+    <label class="fld" for="g7b">함께 기도해 달라고 부탁하고 싶은 것</label>
+    <textarea id="g7b" class="short" data-label="나눔 2 — 기도 부탁"></textarea>
+
+    <div class="leader"><span class="lab">인도자께</span>
+      “기도를 더 많이 하겠습니다” 같은 막연한 결심이 나오면 한 번 더 물어 주십시오. 언제, 얼마나 자주, 무엇을 하는지가 들어가야 다음 주에 지킬 수 있습니다. 10분이면 한 사람당 1분 남짓입니다. 한 걸음만 소리 내어 말하게 하고, 설명은 생략하게 하십시오.
+    </div>
+  </div>
+
+  <!-- ── 8 POS 약속 ── -->
+  <div class="block" id="g8">
+    <p class="eyebrow">PART 5 · 함께 세우다 · 공동체 활동 · 12분</p>
+    <h3>우리 POS가 함께 드릴 예배</h3>
+    <p class="lede">좋은 생각을 많이 모으기보다 앞으로 3개월 동안 실제로 함께할 한 가지를 정합니다. 작고 구체적이며 함께 확인할 수 있는 약속이어야 합니다.</p>
+
+    <label class="fld" for="g8a">우리가 지키고 싶은 것<span class="mini">우리 POS가 함께 예배해 온 모습 중에 앞으로도 잃지 말아야 할 것은 무엇입니까</span></label>
+    <textarea id="g8a" class="short" data-label="POS — 지키고 싶은 것"></textarea>
+    <label class="fld" for="g8b">우리가 새롭게 세워야 할 것<span class="mini">지금 우리의 예배에서 비어 있거나 다시 켜야 할 것은 무엇입니까</span></label>
+    <textarea id="g8b" class="short" data-label="POS — 새롭게 세워야 할 것"></textarea>
+
+    <label class="fld" for="g8c">앞으로 3개월 동안 함께 드릴 예배 한 가지</label>
+    <textarea id="g8c" data-label="POS 약속 — 함께 드릴 예배 한 가지"></textarea>
+    <div class="row3">
+      <input type="text" id="g8d" data-label="POS 약속 · 누가" placeholder="누가 함께합니까">
+      <input type="text" id="g8e" data-label="POS 약속 · 언제" placeholder="언제 시작합니까">
+      <input type="text" id="g8f" data-label="POS 약속 · 확인" placeholder="어떻게 확인합니까">
+    </div>
+
+    <details class="answer">
+      <summary>예시 — 그대로 골라도 괜찮습니다</summary>
+      <ul class="q">
+        <li>POS 모임을 시작할 때 10분간 그 주 설교 본문을 함께 읽고 한 문장씩 나눕니다.</li>
+        <li>단체 대화방에 매주 월요일 각자의 기도 제목 한 줄을 올리고, 금요일에 한 번 함께 기도합니다.</li>
+        <li>한 달에 한 번 한 집에 모여 밥을 먹고 찬양 두 곡과 기도로 가정 예배를 드립니다.</li>
+        <li>서로의 “품은 사람” 이름을 공유하고 매일 한 번씩 그 이름을 부릅니다.</li>
+      </ul>
+    </details>
+
+    <div class="row3">
+      <input type="text" id="g8g" data-label="POS 이름" placeholder="POS 이름">
+      <input type="text" id="g8h" data-label="기록자" placeholder="기록자">
+    </div>
+
+    <div class="leader"><span class="lab">인도자께</span>
+      약속은 한 가지만 정합니다. 담당자, 시작 시점, 확인 방법을 반드시 기록하십시오. 기록이 없으면 3개월 뒤에 아무도 기억하지 못합니다. 예시를 그대로 골라도 괜찮다고 말해 주십시오. 새로운 것을 지어내느라 시간을 쓰는 것보다 낫습니다.
+    </div>
+  </div>
+
+  <!-- ── 9 고백과 기도 ── -->
+  <div class="block" id="g9">
+    <p class="eyebrow">마침 · 고백하고 기도하다 · 5분</p>
+    <h3>우리의 공동 고백</h3>
+    <blockquote class="verse">
+      <p>건물이 아니라 사람이 교회이기에 우리는 가는 곳마다 교회가 되겠습니다.</p>
+      <p>교회를 키우는 것이 아니라 하나님 보시기에 좋은 세상을 위해 살겠습니다.</p>
+      <p>교회만이 아니라 하나님을 소개하는 사람이 되어 두 사람을 품고 기도하겠습니다.</p>
+      <p>홀로 가족과 교회와 함께 예배하고 삶으로 예배하겠습니다.</p>
+      <p>누군가를 이끌 준비가 된 리더가 되겠습니다.</p>
+      <p>서로의 친구와 가족과 종이 되겠습니다.</p>
+      <p>나의 세상을 바꾸고 함께 우리 동네와 땅끝을 찾아가겠습니다.</p>
+    </blockquote>
+
+    <h4 class="qh">함께 드리는 기도</h4>
+    <div class="pull"><p>하나님, 우리가 열지 않은 길을 열어 주셔서 감사합니다. 우리의 정성으로 얻은 자리가 아니라 그리스도의 몸이 찢어져 열린 자리인 줄 압니다. 그 길을 가볍게 여기지도, 두려워 머뭇거리지도 않게 하시고, 참 마음과 온전한 믿음으로 날마다 나아가게 해 주세요. 예식을 치르는 데서 멈추지 않고 하나님의 마음을 알게 해 주세요. 홀로 드리는 자리에서 시작해 가정과 교회로, 다른 사람을 위한 기도와 삶 전체로 우리의 예배가 넓어지게 해 주세요. 오늘 정한 한 걸음을 성실히 걷게 하시고, 우리 POS가 정한 약속을 함께 지키게 해 주세요. 우리는 힘을 다해 걷고, 그 걸음 속에서 일하시는 하나님을 믿습니다. 예수님의 이름으로 기도합니다. 아멘.</p></div>
+    <p class="stamp">우리는 걷고 하나님이 이루십니다</p>
+  </div>
+
+  <!-- ── 부록 ── -->
+  <div class="block" id="g10">
+    <p class="eyebrow">부록</p>
+    <h3>오늘 다룬 말씀</h3>
+    <div class="scroll"><table>
+      <thead><tr><th>본문</th><th>쓰임</th></tr></thead>
+      <tbody>
+        <tr><td class="t">로마서 12:1-2</td><td>1부 개인 묵상 본문 — 하나님 찾기, 사람 찾기</td></tr>
+        <tr><td class="t">빌립보서 1:6</td><td>1부 개인 묵상 마무리 — 시작하신 이가 이루신다</td></tr>
+        <tr><td class="t">출애굽기 25:8-9</td><td>2부 말씀 깊이 보기 — 내가 그들 중에 거할 성소를</td></tr>
+        <tr><td class="t">히브리서 10:19-22</td><td>2부 말씀 깊이 보기 — 휘장 가운데로 열어 놓으신 새로운 살 길</td></tr>
+        <tr><td class="t">마태복음 27:51</td><td>2부 말씀 깊이 보기 — 위로부터 아래까지 찢어진 휘장</td></tr>
+        <tr><td class="t">호세아 6:6</td><td>2부 함께 읽는 말씀 — 번제보다 하나님을 아는 것</td></tr>
+        <tr><td class="t">마태복음 6:6</td><td>2부 나눔 1 — 홀로 드리는 예배</td></tr>
+        <tr><td class="t">신명기 6:7</td><td>2부 나눔 1 — 가족과 드리는 예배</td></tr>
+        <tr><td class="t">사도행전 2:46</td><td>2부 나눔 1 — 교회와 드리는 예배</td></tr>
+        <tr><td class="t">디모데전서 2:1</td><td>2부 나눔 1 — 남을 위한 기도</td></tr>
+      </tbody>
+    </table></div>
+    <p class="mini-p">성경 인용은 개역개정을 따랐습니다. 이 워크북은 『우리는 온교회입니다 — 말씀으로 읽는 온교회 교회론』에서 가져왔습니다.</p>
+
+    <h4 class="qh">소그룹 인원이 많을 때 · 9명 이상</h4>
+    <div class="scroll"><table>
+      <thead><tr><th>순서</th><th>조정</th></tr></thead>
+      <tbody>
+        <tr><td class="t">마음 열기</td><td>전체 대신 둘씩 짝지어 나눈 뒤, 짝의 이야기를 한 문장으로 소개</td></tr>
+        <tr><td class="t">말씀 깊이 보기</td><td>「찾아보기」를 둘로 나누어 각각 채우고 답만 맞춤</td></tr>
+        <tr><td class="t">나눔 1</td><td>표는 각자 채우고, 가장 비어 있는 원 하나만 전체에 말함</td></tr>
+        <tr><td class="t">나눔 2</td><td>둘씩 짝지어 나누고, 한 걸음만 전체에 한 문장으로 공유</td></tr>
+        <tr><td class="t">POS 약속</td><td>전체 유지</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="qh">인도자 체크리스트</h4>
+    <div class="leader"><span class="lab">모임 전날 — 두 시간을 잇는 법</span>
+      1부 개인 묵상을 인도자가 먼저 직접 해 본다 (하나님 찾기와 사람 찾기까지 실제로 적어 본다)<br>
+      출애굽기 25장과 히브리서 10장을 한 번씩 읽는다<br>
+      마태복음 27:51(휘장이 찢어진 장면)을 확인해 둔다<br>
+      나의 다섯 원 중 가장 비어 있는 곳을 미리 정직하게 적어 본다<br>
+      내가 먼저 나눌 이야기를 한 가지 준비한다 (잘 드린 예배가 아니라, 메말랐던 예배로)<br>
+      아침 묵상 안내 때 “마지막 칸은 아침 나눔에서 읽을 것”이라고 미리 일러 둔다<br>
+      아침 나눔에서 나온 말 가운데 반복되는 것을 적어 두었다가 오후에 불러 준다<br>
+      오후 소그룹은 아침에 남은 한 문장으로 연다. 새로운 질문을 꺼내지 않는다
+    </div>
+    <div class="leader"><span class="lab">모임 당일</span>
+      워크북과 펜을 인원수대로 준비한다<br>
+      원형으로 앉을 수 있게 자리를 배치한다<br>
+      타이머를 켠다 (각 순서 종료 2분 전 알림)<br>
+      5-ON 점검 3분 동안 틀어 둘 조용한 음악을 준비한다<br>
+      아침에 나온 “내 모습”을 수습하지 않는다. 그 자리에 복음을 놓는 것이 오후의 일이다<br>
+      레크리에이션과 쉼의 시간을 지나왔으니 오후 시작에 한 번 가라앉히고 들어간다<br>
+      묵상에 참여하지 못한 사람이 있으면 「마음 열기」의 대체 질문으로 받아 준다
+    </div>
+    <div class="leader"><span class="lab">모임 후</span>
+      각 사람이 적은 “나의 한 걸음”을 기억해 둔다<br>
+      일주일 안에 한 사람씩 안부를 묻는다<br>
+      POS 약속의 시작 시점을 달력에 적어 둔다
+    </div>
+
+    <h4 class="qh">다음 모임을 위해</h4>
+    <p class="mini-p">오늘은 다섯 걸음 중 예배 하나를 걸었습니다. 같은 구조로 나머지 네 걸음을 이어 갈 수 있습니다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>걸음</th><th>깊이 볼 본문</th><th>나눔의 중심</th></tr></thead>
+      <tbody>
+        <tr><td class="t">전도</td><td>요한복음 4:1-30 · 마가복음 5:19</td><td>품은 사람과 보내신 사람</td></tr>
+        <tr><td class="t">제자도</td><td>디모데후서 2:2 · 히브리서 5:11-14</td><td>내가 이끌 한 사람</td></tr>
+        <tr><td class="t">공동체</td><td>요한복음 13:12-15 · 로마서 12:15</td><td>친구와 가족과 종</td></tr>
+        <tr><td class="t">선교</td><td>사도행전 1:8 · 누가복음 10:25-37</td><td>나의 세상, 우리 동네, 땅끝</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4 class="qh">내가 적은 것 모아보기</h4>
+    <p class="mini-p">오늘 소그룹에서 적은 것을 한데 모읍니다. 복사해서 메모장이나 POS 대화방에 옮겨 두셔도 좋습니다.</p>
+    <div class="tools">
+      <button class="btn" id="g-gather" type="button">모아보기</button>
+      <button class="btn ghost" id="g-copy" type="button">복사</button>
+      <button class="btn ghost" id="g-wipe" type="button">적은 것 모두 지우기</button>
+    </div>
+    <textarea id="g-gathered" readonly aria-label="모아본 내용" placeholder="모아보기를 누르면 여기에 모입니다."></textarea>
+
+    <p class="stamp">세상에 빛을 비추고 마음을 잇는 교회 — 우리는 온교회입니다</p>
   </div>
 </section>
 
@@ -1130,6 +1470,134 @@
     if (!armed){ armed = true; wipe.textContent = "한 번 더 누르면 지워집니다";
       setTimeout(function(){ armed = false; wipe.textContent = "적은 것 모두 지우기"; }, 4000); return; }
     fields.forEach(function(f){ if (f.id !== "gathered") f.value = ""; });
+    store = {}; if (out) out.value = "";
+    try { localStorage.removeItem(KEY); } catch(e){}
+    armed = false; wipe.textContent = "적은 것 모두 지우기";
+    flash("모두 지웠습니다");
+  });
+})();
+</script>
+
+<script>
+/* ── 소그룹나눔 — 위젯 만들기 · 적은 것 저장 · 모아보기 ── */
+(function(){
+  var root = document.getElementById("v-group");
+  if (!root) return;
+  var KEY = "onchurch.pos.v1";
+  var saved = document.getElementById("saved");
+  var store = {};
+  try { store = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e){ store = {}; }
+
+  function flash(msg){
+    if (!saved) return;
+    saved.textContent = msg;
+    clearTimeout(flash._t);
+    flash._t = setTimeout(function(){ saved.textContent = ""; }, 1600);
+  }
+  var t = null;
+  function persist(){
+    clearTimeout(t);
+    t = setTimeout(function(){
+      try { localStorage.setItem(KEY, JSON.stringify(store)); flash("이 기기에 저장되었습니다"); }
+      catch(e){ flash("저장할 수 없는 환경입니다. 적은 것을 따로 옮겨 두세요"); }
+    }, 500);
+  }
+
+  /* 고르는 칸 만들기 — name 하나에 보기 여러 개 */
+  function buildOpts(host, name, label, opts){
+    var wrap = document.createElement("div");
+    wrap.className = "opts";
+    opts.forEach(function(v){
+      var l = document.createElement("label");
+      var r = document.createElement("input");
+      r.type = "radio"; r.name = name; r.value = v;
+      r.setAttribute("data-glabel", label);
+      if (store[name] === v) r.checked = true;
+      var sp = document.createElement("span");
+      sp.textContent = v;
+      l.appendChild(r); l.appendChild(sp);
+      wrap.appendChild(l);
+      r.addEventListener("change", function(){ store[name] = v; persist(); });
+    });
+    host.appendChild(wrap);
+    return wrap;
+  }
+
+  /* 5-ON 점검 — 다섯 축에 1~5 */
+  Array.prototype.slice.call(root.querySelectorAll(".scale")).forEach(function(d){
+    var axis = d.dataset.axis;
+    var t1 = document.createElement("span");
+    t1.className = "axis"; t1.textContent = axis;
+    d.appendChild(t1);
+    var box = document.createElement("div");
+    d.appendChild(box);
+    buildOpts(box, "scale-" + axis, "5-ON 점검 · " + axis, ["1","2","3","4","5"]);
+  });
+
+  /* 예배의 원 — 다섯 원에 ○ △ × */
+  Array.prototype.slice.call(root.querySelectorAll(".circle")).forEach(function(d){
+    var ring = d.dataset.ring;
+    var h = document.createElement("div");
+    h.className = "ring"; h.textContent = ring;
+    var v = document.createElement("p");
+    v.className = "cv";
+    v.innerHTML = "\u201c" + d.dataset.verse + "\u201d <span class=\"src\">" + d.dataset.ref + "</span>";
+    d.appendChild(h); d.appendChild(v);
+    buildOpts(d, "ring-" + ring, "예배의 원 · " + ring, ["○","△","×"]);
+  });
+
+  /* 내가 고른 원 */
+  Array.prototype.slice.call(root.querySelectorAll(".pick")).forEach(function(d){
+    buildOpts(d, d.dataset.name, "내가 고른 원", d.dataset.opts.split(","));
+  });
+
+  /* 글로 적는 칸 */
+  var fields = Array.prototype.slice.call(root.querySelectorAll("[data-label]"));
+  fields.forEach(function(f){ if (typeof store[f.id] === "string") f.value = store[f.id]; });
+  fields.forEach(function(f){
+    f.addEventListener("input", function(){ store[f.id] = f.value; persist(); });
+  });
+
+  /* 모아보기 */
+  var out = document.getElementById("g-gathered");
+  var gather = document.getElementById("g-gather");
+  if (gather) gather.addEventListener("click", function(){
+    var lines = ["2026 온교회 가을수련회 · 소그룹나눔 (ON-FOCUS 예배)", ""];
+    Array.prototype.slice.call(root.querySelectorAll(".block")).forEach(function(b){
+      var rows = [];
+      Array.prototype.slice.call(b.querySelectorAll("input[type=radio]:checked")).forEach(function(r){
+        rows.push("· " + r.getAttribute("data-glabel") + ": " + r.value);
+      });
+      Array.prototype.slice.call(b.querySelectorAll("[data-label]")).forEach(function(f){
+        if (f.id !== "g-gathered" && f.value.trim())
+          rows.push("· " + f.dataset.label + ": " + f.value.trim());
+      });
+      if (!rows.length) return;
+      var h = b.querySelector("h3");
+      lines.push("[" + (h ? h.textContent : b.id) + "]");
+      lines = lines.concat(rows);
+      lines.push("");
+    });
+    out.value = lines.length > 2 ? lines.join("\n").trim()
+      : "아직 적은 것이 없습니다. 위로 돌아가 보세요.";
+  });
+
+  var copy = document.getElementById("g-copy");
+  if (copy) copy.addEventListener("click", function(){
+    if (!out.value.trim()) { flash("먼저 모아보기를 눌러 주세요"); return; }
+    try {
+      navigator.clipboard.writeText(out.value).then(
+        function(){ flash("복사했습니다"); },
+        function(){ out.select(); flash("길게 눌러 복사하세요"); });
+    } catch(e){ out.select(); flash("길게 눌러 복사하세요"); }
+  });
+
+  var wipe = document.getElementById("g-wipe"), armed = false;
+  if (wipe) wipe.addEventListener("click", function(){
+    if (!armed){ armed = true; wipe.textContent = "한 번 더 누르면 지워집니다";
+      setTimeout(function(){ armed = false; wipe.textContent = "적은 것 모두 지우기"; }, 4000); return; }
+    fields.forEach(function(f){ if (f.id !== "g-gathered") f.value = ""; });
+    Array.prototype.slice.call(root.querySelectorAll("input[type=radio]")).forEach(function(r){ r.checked = false; });
     store = {}; if (out) out.value = "";
     try { localStorage.removeItem(KEY); } catch(e){}
     armed = false; wipe.textContent = "적은 것 모두 지우기";
