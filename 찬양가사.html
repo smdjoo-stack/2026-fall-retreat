@@ -10,7 +10,7 @@
     --bg: #0A0A0A;
     --fg: #FFFFFF;
     --overlay: rgba(0, 0, 0, 0.45);   /* 검은 오버레이 45% */
-    --lyric-size: 92px;               /* 1920px 기준 ≈ 46pt (16:9 슬라이드 환산) */
+    --lyric-size: 110px;              /* 1920px 기준 ≈ 55pt (16:9 슬라이드 환산) */
     --lyric-lh: 1.5;
     --font: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "NanumSquare", sans-serif;
   }
@@ -37,7 +37,7 @@
 
   /* 가사 박스 — 위치·크기 고정 (슬라이드 전환 시 흔들림 없음) */
   .box {
-    position: absolute; left: 10%; right: 10%; top: 50%;
+    position: absolute; left: 10%; right: 10%; top: 30%;   /* 화면 중앙(50%)에서 20% 위로 */
     height: calc(var(--lyric-size) * var(--lyric-lh) * 3);
     transform: translateY(-50%);
     display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -307,7 +307,8 @@ Hey-ho! 나는 영원히 춤추리
 나는 믿네 십자가에서 못 박힌 주
 오늘도 새 삶을 주시는
 날 새롭게 하셨네
-나는 깊이 저 못 십자가 잡고 살아가리
+나는 깊이 저 못 십자가
+잡고 살아가리
 [엔딩]
 나는 믿네 갈보리 언덕 십자가
 나는 믿네 그 누가 뭐라 해도
@@ -347,10 +348,14 @@ Hey-ho! 나는 영원히 춤추리
 # 주님만이 왕이십니다
 @ 작사·작곡 표기 입력
 [영어 후렴]
-Jesus you’re the only one our King
-Jesus you’re the only one our King
-Jesus you’re the only one our King
-Jesus you’re the only one our King
+Jesus you’re the only one
+our King
+Jesus you’re the only one
+our King
+Jesus you’re the only one
+our King
+Jesus you’re the only one
+our King
 [In this Place]
 In this Place In this Place
 In this Place In this Place
@@ -483,7 +488,7 @@ We lift our hands to You
   // ---------- 슬라이드 생성 ----------
   const measureCtx = document.createElement("canvas").getContext("2d");
   function lineWidth(t) {
-    measureCtx.font = `700 92px ${getComputedStyle(document.body).getPropertyValue("--font")}`;
+    measureCtx.font = `700 ${getComputedStyle(document.documentElement).getPropertyValue("--lyric-size").trim()} ${getComputedStyle(document.body).getPropertyValue("--font")}`;
     return measureCtx.measureText(t).width;
   }
 

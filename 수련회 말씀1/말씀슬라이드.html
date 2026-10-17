@@ -44,6 +44,17 @@
   .cover h1 { font-size: 110px; font-weight: 800; }
   .cover p { font-size: 40px; color: var(--muted); }
 
+  /* 기도제목 — 한 장에 한 항목 */
+  .prayer { position: absolute; left: 10%; right: 10%; top: 50%; transform: translateY(-50%); text-align: center; }
+  .prayer h2 { font-size: 52px; font-weight: 800; color: var(--accent); letter-spacing: 0.08em; }
+  .prayer .pnum {
+    width: 120px; height: 120px; margin: 56px auto 48px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--accent); color: #111; font-size: 68px; font-weight: 800;
+  }
+  .prayer p { font-size: 96px; font-weight: 800; line-height: 1.35; word-break: keep-all; }
+  .prayer .desc .pref { display: block; margin-top: 16px; font-size: 36px; font-weight: 600; color: var(--accent); }
+  .prayer .desc { margin-top: 48px; font-size: 48px; font-weight: 500; line-height: 1.6; color: rgba(255,255,255,0.8); word-break: keep-all; }
+
   /* 차례 — 마우스를 움직일 때만 화면 아래에 나타남 */
   .toc {
     position: absolute; left: 0; right: 0; bottom: 0; padding: 28px 5% 36px;
@@ -89,6 +100,7 @@
   ▼ 슬라이드 순서와 본문 — 여기만 고치면 됩니다
     [그림] 파일명 | 차례에 보일 이름
     [본문] 성경 장:절 | 번역본
+    [기도] 제목  (다음 줄부터 한 줄에 한 항목: 큰 제목 | 간단한 설명)
     절번호 본문 내용   (한 줄에 한 절. 화면에 맞게 자동으로 여러 장으로 나뉩니다)
 -->
 <script type="text/plain" id="deck-data">
@@ -131,6 +143,11 @@
 17 짐을 나르는 이들은, 한 손으로는 짐을 나르고, 다른 한 손으로는 무기를 잡았다.
 
 [그림] 설교7.png | 그림 7
+
+[기도] 기도제목
+나는 지금 쓰일 수 있는 돌인가? | 버려진 돌을 들어 쓰시는 주님 앞에, 오늘 쓰임 받는 산 돌로 서게 하소서. (벧전 2:5)
+나는 서로 연결되어 있는가? | 혼자 서는 돌이 아니라, 서로 맞물려 하나님의 집을 이루는 공동체가 되게 하소서. (고전 3:9)
+나는 끝까지 남는가? | 지치고 두려울 때에도 주님을 기억하며, 끝까지 성벽을 쌓는 사람이 되게 하소서. (느 4:14)
 </script>
 <!-- ▲ 끝 -->
 
@@ -154,6 +171,10 @@
       if ((m = line.match(/^\[본문\]\s*(.+?)\s*(?:\|\s*(.+))?$/))) {
         items.push(cur = { type: "text", ref: m[1], version: m[2] || "", verses: [] }); continue;
       }
+      if ((m = line.match(/^\[기도\]\s*(.*)$/))) {
+        items.push(cur = { type: "prayer", title: m[1] || "기도제목", list: [] }); continue;
+      }
+      if (cur && cur.type === "prayer") { cur.list.push(line); continue; }
       if (cur && cur.type === "text") {
         m = line.match(/^(\d+)\s+(.+)$/);
         if (m) cur.verses.push({ n: m[1], t: m[2] });
@@ -194,6 +215,15 @@
     slides = [{ type: "cover" }];
     sections = [];
     for (const item of items) {
+      if (item.type === "prayer") {
+        // 기도제목은 한 항목씩 한 장
+        item.list.forEach((t, i) => {
+          sections.push({ label: `${item.title} ${i + 1}`, start: slides.length });
+          const [head, desc = ""] = t.split("|").map(x => x.trim());
+          slides.push({ type: "prayer", title: item.title, n: i + 1, text: head, desc, sec: sections.length - 1 });
+        });
+        continue;
+      }
       sections.push({ label: item.type === "pic" ? item.label : item.ref, start: slides.length });
       if (item.type === "pic") slides.push({ type: "pic", src: item.src, sec: sections.length - 1 });
       else {
@@ -211,6 +241,8 @@
     stage.style.background = "";
     if (s.type === "cover") stage.innerHTML = `<div class="cover"><h1>수련회 말씀 1</h1><p>베드로전서 2:4-5 · 고린도전서 3:5-15 · 느헤미야 4:9-17</p></div>`;
     else if (s.type === "pic") stage.innerHTML = `<div class="pic-fill" style="background-image:url('${encodeURI(s.src)}')"></div><img class="pic" src="${encodeURI(s.src)}" alt="">`;
+    else if (s.type === "prayer") stage.innerHTML = `<div class="prayer"><h2>${esc(s.title)}</h2>` +
+      `<div class="pnum">${s.n}</div><p>${esc(s.text)}</p>${s.desc ? `<div class="desc">${esc(s.desc).replace(/\s*(\([^()]+\))\s*$/, '<span class="pref">$1</span>')}</div>` : ""}</div>`;
     else stage.innerHTML = textHtml(s.item, s.verses, s.part, s.total);
     stage.insertAdjacentHTML("beforeend", `<nav class="toc">${sections.map((x, i) =>
       `<span data-slide="${x.start}"${i === s.sec ? ' class="now"' : ""}>${esc(x.label)}</span>`).join("")}</nav>`);
